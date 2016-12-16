@@ -1,0 +1,19 @@
+datatype: String
+
+base: String
+
+script.
+  var nome: Number = 'qwffga';
+  return nome+1;
+
+  function dobro(x: number) {
+    return x*2;
+  }
+
+validate.
+  var nome: Number = 'qwffga';
+  return nome+1;
+
+  function dobro(x: number) {
+    return x*2;
+  }
