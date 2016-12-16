@@ -1,0 +1,28 @@
+bizdoc:
+    description: Registra no Caixa o valor recebido
+    type: complex
+    complex:
+        pedido:
+            type: /atalaia/bz.pedido_coleta
+            required: true
+            caption:
+                pt-br: Pedido
+        nota_fiscal:
+            type: ../pkg/hfw/type.nota_fiscal
+            required: true
+            caption:
+                pt-br: Nota Fiscal
+        data_emissao:
+            type: ../pkg/hfw/type.date_e_time
+            required: true
+            caption:
+                pt-br: Nota Fiscal
+states:
+  - pago
+actions:
+  registra_pagamento(pedido) // -> pago
+  {
+    bizdoc.pedido = pedido;
+    bizdoc.nota_fical = gera_nota_fiscal();
+    bizdoc.status = "pago";
+  }

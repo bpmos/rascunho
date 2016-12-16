@@ -1,0 +1,22 @@
+bizdoc:
+  description:
+    pt_br: dados da matricula
+  type: complex
+  complex:
+    cliente:
+        caption:
+            pt_br: dados pessoais
+        required: true
+        bizdoc: /telemarketing/type.pessoa
+    curso:
+        caption:
+            pt_br: nome do curso
+        required: true
+        min: 1
+        type: type.string
+    periodo:
+        caption:
+            pt_br: periodo do curso
+        required: true
+        min: 1
+        type: type.date

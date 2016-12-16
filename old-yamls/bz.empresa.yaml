@@ -1,0 +1,25 @@
+Bizdoc:
+  description: Dados da empresa
+  type: arrayOf
+  arrayOf:
+    ramo:
+      type: /pkg/hfw/type.string
+      required: true
+      min: 5
+      caption:
+        pt_br: ramo
+    endereco:
+      type: /pkg/hfw/type.endereco
+      required: true
+      min: 10
+      caption:
+        pt_br: Endereço
+    funcionario:
+      caption:
+        pt-br: Funcionarios
+      arrayOf: '/maisPurificadores/pf.emrpesa.yaml#Funcinarios'
+    servicos:
+      caption:
+        pt-br: Serviços
+      arrayOf: '/maisPurificadores/pf.emrpesa.yaml#Servicos'
+

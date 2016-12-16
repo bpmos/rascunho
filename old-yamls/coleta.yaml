@@ -1,0 +1,45 @@
+process:
+  name: Coleta
+  description: Coleta de Material do Paciente
+  value: Coleta
+activities:
+- description: Chama paciente
+  role: Flebotomista
+  type: task
+  actions:
+- description: Confirma documentação
+  role: Flebotomista
+  type: task
+- description: Etiquetar fracos na frente do paciente
+  role: Flebotomista
+  type: task
+  - bizdoc: /atalaia/bz.imprime_etiqueta
+    action: emite_etiquetas
+  - bizdoc: /atalaia/bz.pedido_coleta
+    action: chama_paciente
+- description: Coletar Material
+  role: Flebotomista
+  type: task
+- description: Regitrar Coleta
+  role: Flebotomista
+  type: task
+- description: Registro de Ocorrencias
+  role: Flebotomista
+  type: task
+- description: Emite protocolo de atendimento para pegar o laudo
+  role: Flebotomista
+  type: task
+  actions:
+  - bizdoc: /atalaia/bz.emite_protocolo
+    action: emite_protocolo
+  - bizdoc: /atalaia/bz.pedido_coleta
+    action: encerra_coleta
+pools:
+- role: Paciente
+- role: Flebotomista
+organogram:
+  type: unit
+  description: Coleta
+KPI:
+- Tempo médio de espera do paciente na coleta
+- Tempo médio de atendendo o paciente na coleta

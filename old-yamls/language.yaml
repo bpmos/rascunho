@@ -1,0 +1,13 @@
+datatype:
+  base: enum
+states:
+  en:
+    value: en
+    caption:
+      pt_br: 'Inglês'
+      en: 'English'
+  pt_br:
+    value: pt_br
+    caption:
+      pt_br: 'Português'
+      en: 'Portuguese'

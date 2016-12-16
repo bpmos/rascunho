@@ -1,0 +1,94 @@
+Estabelecimento:
+  description: Dados do estabelecimento
+  type: complex
+  complex:
+    tipo:
+      type: /pkg/hfw/type.string
+      required: true
+      min: 1
+      caption:
+        pt_br: Tipo
+        en: Type
+    endereco:
+      type: /pkg/hfw/type.string
+      required: true
+      min: 1
+      caption:
+        pt_br: Endereço
+        en: Adress
+    servicos:
+      caption:
+        pt-br: Serviços
+        en: Services
+      arrayOfComplex: Servicos
+    acomodacoes:
+      caption:
+        pt-br: Acomodaçoes
+        en: Accommodations
+      arrayOfComplex: '#Acomodacoes'
+
+Servicos:
+  description: Serviços oferecidos pelo estabelecimento
+  type: arrayOfComplex
+  arrayOfComplex:
+    tipo:
+      type: /pkg/hfw/type.string
+      required: true
+      min: 1
+      caption:
+        pt_br: Tipo
+        en: Type
+    valor:
+      type: /pkg/hfw/type.string
+      required: false
+      min: 0.01
+      caption:
+        pt_br: Preço
+        en: Price
+    disponibilidade:
+      type: /pkg/hfw/type.boolean
+      required: true
+      min: 1
+      caption:
+        pt_br: Disponibilidade
+        en: Availability
+    descricao:
+      type: /pkg/hfw//type.string
+      required: false
+      min: 10
+      caption:
+        pt-br: Descriçao
+        en: Description
+
+Acomodacoes:
+  description: Tipos de acomodaçoes oferecidas pelo estabelecimento
+  type: arrayOfComplex
+  arrayOfComplex:
+    tipo:
+      type: /pkg/hfw/type.string
+      required: true
+      min: 1
+      caption:
+        pt_br: Tipo
+        en: Type
+    valor:
+      type: /pkg/hfw/type.string
+      required: false
+      min: 0.01
+      caption:
+        pt_br: Preço
+        en: Price
+    disponibilidade:
+      type: /pkg/hfw/type.boolean
+      required: true
+      min: 1
+      caption:
+        pt_br: Disponibilidade
+        en: Availability
+    descricao:
+      type: /pkg/hfw//type.string
+      required: false
+      min: 10
+      caption:
+        pt-br: Descriçao
+        en: Description

@@ -1,0 +1,14 @@
+description:
+  pt_br: telefone
+type: complex
+complex:
+  ddd:
+      caption:
+          pt_br: ddd
+      min: 2
+      type: type.number
+  numero:
+      caption:
+          pt_br: numero
+      min: 8
+      type: type.number

@@ -1,0 +1,79 @@
+process:
+  name: Suporte Técnico
+  descritpion: Processo de suporte ao cliente com relação a manutenção dos produtos adiquiridos
+  value: Assistência Técnica
+activities:
+- description: Desloca-se até o cliente
+  role: Técnico
+  type: task
+- description: Encontrou o cliente
+  role: Técnico
+  type: fork
+  branches:
+  - description: Sim
+    steps:
+	- description: Confirma visita técnica
+      role: Cliente
+	  type: task
+    - description: Avalia situação
+      role: Técnico
+      type: task
+    - description: Tem situação?
+      role: Técnico
+      type: fork
+      branches:
+	  - description: Sim
+	    steps:
+	  	- description: Informar orçamento
+	  	  role: Técnico
+	  	  type: task
+	  	- description: Pode fazer o serviço
+	  	  role: Técnico
+	  	  type: fork
+	  	  branches:
+	  	  - description: Sim
+	  	    steps:
+	  	    - description: Contacta financeiro para registrar a forma de pagamento
+	  	      role: Técnico
+	  		  type: task
+	  		- description: Realizar manutenção
+	  		  role: Técnico
+	  		  type: task
+	  		- description: Passar informações de direito do cliente
+	  		  role: Técnico
+	  		  type: task
+	  		- description: Finalizar OS
+              actions:
+              - bizdoc: ./maisPurificadores/bz.ordemServico
+                action: fechaOS
+	  		  role: Técnico
+	  		  type: task
+	  	  - description: Não
+	  	    steps:
+	  		- description: Finaliza ordem de serviço
+	  		  role: Técnico
+	  		  type: task
+	  		- description: Aplicar técnica de solução de rejeição
+	  		  role: Atendente de Telemarketing
+	  		  type: task
+	  - description: Não
+	    steps:
+	  	- description: Informa situação ao cliente
+	  	  role: Técnico
+	  	  type: task
+	  	- description: Encaminhar para setor de vendas
+	  	  role: Técnico
+	  	  type: task
+  - description: Não
+    steps:
+    - description: Remarcar visita
+      role: Técnico
+      type: task
+pools:
+- role: Cliente
+- role: Técnico
+- role: Atendente de Telemarketing
+- role: Administração
+organogram:
+  type: unit
+  description: Assistência Técnica

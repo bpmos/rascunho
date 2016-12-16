@@ -1,0 +1,51 @@
+Bizdoc:
+  description: Informaçoes da OS
+  type: complex
+  complex:
+    numero:
+      type: /pkg/hfw/type.number
+      required: true
+      min: 1
+      caption:
+        pt_br: Número OS
+    cliente:
+      caption:
+        pt_br: Cliente
+      arrayOf: '/maisPurificadores/pf.clientes.yaml#Clientes'
+    data:
+        type: /pkg/hfw/type.date
+        required: true
+        caption:
+          pt-br: Data
+    servico:
+      caption:
+        pt_br: Modelo de filtro
+      arrayOf: '/maisPurificadores/pf.servicos.yaml#Servicos'
+    produtos:
+      caption:
+        pt_br: Produtos
+      arrayOf: '/maisPurificadores/pf.produtos.yaml#Produtos'
+    responsavel_venda:
+      caption:
+        pt_br: Responsável
+      arrayOf: '/maisPurificadores/pf.funcionarios.yaml#Funcionarios'
+
+states:
+  - aberto
+  - fechado
+actions:
+  abreOS(numero, cliente, servico, produtos, resposavel) // -> aberto
+  {
+    bizdoc.numero = numero;
+    bizdoc.cliente = cliente;
+    bizdoc.data = new Date();
+    bizdoc.servico = servico;
+    bizdoc.produtos = produtos;
+    bizdoc.resposavel = responsavel;
+    bizdoc.status = "aberto";
+  }
+  fechaOS() // -> fechado
+  {
+    bizdoc.data = new Date();
+    bizdoc.status = "fechado";
+  }

@@ -1,0 +1,35 @@
+pagelets1: #h5.ui.pagelets.title automatico
+
+pagelets2: #"h5.ui.pagelets.title automatico"
+
+pagelets3:
+  #apptitle: "h5.ui.pagelets.title automatico"
+  apptasks: "h5.ui.pagelets.tasks automatico"
+
+pagelets4:
+# apptitle: "h5.ui.pagelets.title automatico"
+  apptasks: "h5.ui.pagelets.tasks automatico"
+  appmenu: "h5.ui.pagelets.tasks automatico"
+  appcontent: "h5.ui.pagelets.content automatico"
+  applogin: "h5.transforma.ui.login h5.ui.pagelets.login"
+
+pagelets5:
+  apptitle: "h5.ui.pagelets.title automatico"
+#  apptasks: "h5.ui.pagelets.tasks automatico"
+  appmenu: "h5.ui.pagelets.tasks automatico"
+#  appcontent: "h5.ui.pagelets.content automatico"
+  applogin: "h5.transforma.ui.login h5.ui.pagelets.login"
+
+pagelets6:
+  apptitle: #"h5.ui.pagelets.title automatico"
+  apptasks: #"h5.ui.pagelets.tasks automatico"
+  appmenu: "h5.ui.pagelets.tasks automatico"
+  appcontent: "h5.ui.pagelets.content automatico"
+  applogin: "h5.transforma.ui.login h5.ui.pagelets.login"
+
+pagelets7:
+  apptitle: #"h5.ui.pagelets.title automatico"
+    apptasks: #"h5.ui.pagelets.tasks automatico"
+  appmenu: #"h5.ui.pagelets.tasks automatico"
+    appcontent: "h5.ui.pagelets.content automatico"
+    applogin: "h5.transforma.ui.login h5.ui.pagelets.login"

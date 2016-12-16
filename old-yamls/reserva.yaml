@@ -1,0 +1,61 @@
+process:
+  name: Reserva
+  description: Processo para efetuar reserva em hotel
+  value: Reserva
+activities:
+- description: Informar quantidade de quartos, pessoas e a data à ser reservada
+  role: Cliente
+  type: task
+- description: Verificação se há disponibilidade para reserva requerida
+  role: Hotel
+  type: task
+- description: Há disponibilidade para reserva requerida?
+  role: Hotel
+  type: fork
+  branches:
+  - description: Sim
+    steps:
+    - description: Faz a pré reserva
+      role: Hotel
+      type: task
+    - description: Envia solicitação de confirmação para o cliente
+      role: Hotel
+      type: task
+    - description: Confirmação do cliente
+      role: Cliente
+      type: Fork
+    - description: Houve confirmação do cliente?
+      role: Cliente
+      type: Fork
+      branches:
+      - description: Sim
+        steps:
+        - description: Reserva confirmada
+          role: Cliente
+          type: task
+          bizdoc: '/pozzzo/bz.reserva.yaml'
+          action: emitir
+        - description: Envio de email de confirmação
+          role: Hotel
+          type: message event
+      - description: Não
+        steps:
+        - description: Cancela a pré reserva
+          role: Hotel
+          type: task
+  - description: Não
+    steps:
+    - description: Termina a operação
+      role: Hotel
+      type: task
+pools:
+- role: Hotel
+- role: Cliente
+organogram:
+  type: unit
+  description: Gerência de hospedagem
+KPI:
+  - Quantidade de Reservas
+  - Taxa de confirmação = Reserva confirmada / Quantidade de Reservas * 100
+  - Tempo entre Solicitação de Reserva e Pré-Reserva
+  - Tempo entre Pré-Reserva e Confirmação

@@ -1,0 +1,19 @@
+application:
+  title:
+    pt_br: Mini Assistência Técnica
+    en: Mini Help Desk
+  theme: /h5/ui/temafeio
+
+pagelets:
+  apptitle: h5.hfw.apptitle
+#  applogin: h5.transforma.ui.login  # h5.ui.pagelets.login
+  #apptaks:    h5.ui.pagelets.tasks automático
+  #appmenu:    h5.ui.pagelets.menu automático
+  #appcontent: h5.ui.pagelets.contents automático
+
+#layouts:
+
+processes:
+- start: h5.transforma.ui.productbacklog
+- h5.transforma.ui.cadincidente
+  # - login

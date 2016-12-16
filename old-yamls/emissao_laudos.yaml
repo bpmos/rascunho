@@ -1,0 +1,49 @@
+process:
+  name: Emissão de laudos
+  description: Processo que emite laudos do paciente pela internet ou em alguma unidade do Atalaia
+  value: Emissão de Laudos
+activities:
+- description: Emitir laudo por onde?
+  role: Paciente
+  type: fork exclusive
+  branches:
+  - description: site
+    steps:
+    - description: Preencher usuário e senha
+      role: Paciente
+      type: task
+    - description: Emiter Laudos Liberados
+      role: Paciente
+      type: task
+      actions:
+      - bizdoc: /atalaia/bz.emite_laudo
+        action: emite_laudo
+    - description: Entregar Laudos ao Paciente
+      role: Paciente
+      type: task
+  - description: Unidade Atalaia
+    steps:
+    - description: Solicitar a emissão dos laudo em alguma unidade da empresa
+      role: Paciente
+      type: task
+    - description: Pesquisar atendimento
+      role: Recepcionista
+      type: task
+    - description: Emiter Laudos Liberados
+      role: Recepcionista
+      type: task
+      actions:
+      - bizdoc: /atalaia/bz.emite_laudo
+        action: emite_laudo
+    - description: Entregar Laudos ao Paciente
+      role: Recepcionista
+      type: task
+pools:
+- role: Paciente
+- role: Recepcionista
+organogram:
+  type: unit
+  description: Entrega de Laudos
+KPI:
+- Taxa de impessos na internet = Quantidade de laudos impresso pela Internet / quantidade total de laudos liberados
+- Taxa de impessos na internet = Quantidade de laudos impresso no atalaia / qantidade total de laudos liberados

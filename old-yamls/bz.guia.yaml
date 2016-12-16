@@ -1,0 +1,40 @@
+bizdoc:
+  description: Regitro de guias autorizadas pelo convênio
+  type: complex
+  complex:
+    paciente:
+      type: ../pkg/hfw/type.string
+      required: true
+      caption:
+        pt-br: Pacinte
+    exames:
+      type: ../pkg/hfw/bz.exame
+      required: true
+      caption:
+        pt-br: Exames Realizados
+    numero_autorizacao:
+      required: true
+      caption:
+        pt-br: Numero Autorizacao Convênio
+      type: ../pkg/hfw/type.number
+states:
+  - registrado_faturamento
+  - envio_faturamento
+  - glosado
+  - encerrado
+actions:
+  registra_faturamento(nome, exames, numero_autorizacao) // -> registrado_faturamento
+  {
+    bizdoc.paciente = buscar_paciente(nome);
+    bizdoc.exames = exames
+    bizdoc.numero_autorizacao = numero_autorizacao;
+    bizdoc.status = "emitido"
+  }
+  enviado_faturamento() // emitido -> envio_faturamento
+  {
+    bizdoc.status = "envio_faturamento"
+  }
+  recebe_resposta_convenio(state) // envio_faturamento -> glosado || envio_faturamento -> encerrado
+  {
+    bizdoc.status = state;
+  }

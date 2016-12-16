@@ -1,0 +1,35 @@
+bizdoc:
+    description: Emite laudo das analises do paciente
+    type: complex
+    complex:
+        paciente:
+            type: /atalaia/bz.cadastro_paciente
+            required: true
+            caption:
+                pt-br: Cliente
+        pedido:
+            type: /atalaia/bz.pedido_coleta
+            required: true
+            caption:
+                pt-br: Cliente
+        resultados_analises:
+            required: true
+            caption:
+                pt-br: Resultado de Analise
+            type: complex
+            complex:
+                nome_exame:
+                  type: ../pkg/hfw/type.laudo
+                  required: true
+                  caption:
+                    pt-br: Nome do Exame
+states:
+  - emitido
+actions:
+  emite_laudo() // -> emitido
+  {
+    imprime(bizdoc.paciente,
+    bizdoc.pedido,
+    bizdoc.resultado_analises.nome_exame);
+    bizdoc.status = "impresso";
+  }

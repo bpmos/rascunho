@@ -1,0 +1,90 @@
+process :: Telemarketing
+  name: Telemarketing
+  description: Processo usado para determinar que produtos ou serviços poderão que interessar aos consumidores, assim como a estratégia que será utilizada nas vendas, comunicações e no desenvolvimento do negócio.
+  value: Recepção
+activities:
+- description: Ligar para cliente
+  role: Atendente
+  type: task
+- fork :: Atendeu?
+  description: Atendeu?
+  role: Atendente
+  type: fork
+  branches:
+  - description: Sim
+    steps:
+    - description: Pergunta se tem purificador
+      role: Atendente
+      type: task
+    - description: Possui?
+      type: fork
+      branches:
+      - description: Sim
+        steps:
+        goto: Está interessado?
+      - description: Não
+        steps:
+        goto: Está interessado?
+- description: Está interessado?
+  role: Cliente
+  type: fork
+  branches:
+  - description: Sim
+    steps:
+    - description: Cadastrado?
+      role: Atendente
+      type: fork
+      branches:
+      - description: Sim
+        steps:
+        goto: Venda ou mauntenção?
+      - description: Não
+        steps:
+        - description: Faz ficha do cliente
+          role: Atendente
+          type: task
+        actions:
+        - bizdoc: ./maisPurificadores/bz.clientes
+          action: cadastra
+        goto: Venda ou manutenção?
+  - description: Não
+    steps:
+    - description: Descobrir motivo e possível interesse futuro
+      role: Atendente
+      type: task
+- description: Venda ou manutenção?
+  role: Atendente
+  type: fork
+  branches:
+  - description: Venda
+   steps:
+   - description: Tira o pedido
+     role: Atendente
+     type: task
+   actions:
+   - bizdoc: ./maisPurificadores/bz.pedido
+     action: emitePedido
+   - description: Confirma pedido
+     role: Cliente
+     type: task
+   - description: Finalizar venda
+     role: Atendente
+     type: task
+  - description: Manutenção
+    steps:
+    - description: Abrir OS
+      role: Atendente
+      type: task
+    actions:
+    - bizdoc: ./maisPurificadores/bz.ordemServico
+      action: abreOS
+    - description: Processo do suporte Técnico
+      role: Suporte técnico
+      type: task
+pools:
+- role: Cliente
+- role: Atendente
+- role: Suporte Técnico
+organogram:
+  type: unit
+  description: Telemarketing

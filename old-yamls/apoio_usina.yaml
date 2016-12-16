@@ -1,0 +1,26 @@
+process:
+  name: Usina de Laudos
+  description: Processo que auxilia outros laboratórios em exames
+  value: Apoio (Usina)
+activities:
+- description: Envio do material para analise
+  role: Outros Laboratórios
+  type: task
+- description: Conferência das amostras recebidas
+  role: Técnico de Laboratório
+  type: task
+- description: Registra pedido na usina de laudos e  faturamento
+  role: Técnico de Laboratório
+  type: task
+- description: Fazer Exame
+  role: Técnico de Laboratório
+  type: task
+- description: Liberação de Resultados
+  role: Técnico de Laboratório
+  type: task
+pools:
+- role: Outros Laboratórios
+- role: Técnico de Laboratório
+organogram:
+  type: unit
+  description: Apoio (Usina)

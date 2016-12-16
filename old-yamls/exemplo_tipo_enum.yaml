@@ -1,0 +1,27 @@
+datatype:
+  base: enum
+states:
+  Sim:
+    value: S
+    caption:
+      pt_br: Sim
+      en: Yes
+  Nao:
+    value: N
+    caption:
+      pt_br: Não
+      en: No
+
+#tests:
+#- value: S
+#  required: true
+#  throws: "Nome: Campo obrigatório"
+#
+#- value: N
+#  required: true
+#  throws: "Nome: Campo obrigatório"
+#
+#- value: S
+#  required: true
+#  throws: "Nome: Campo obrigatório"
+#

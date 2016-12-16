@@ -1,0 +1,44 @@
+datatype:
+  base: integer
+properties:
+  required:
+    type: boolean
+    required: true
+  min:
+    type: number
+    required: false
+  max:
+    type: number
+    required: false
+  decimals:
+    type: number
+    required: false
+validate: | !js
+  if (!value && required)
+    throw "Campo obrigatório";
+  if (value && min && value < min)
+    throw "O valor minimo permitido é "+ min;
+  if (value && max && value > max)
+    throw "O valor máximo permitido é "+ max;
+init: | !js
+  return {
+    typedef: typedef,
+    value: value
+  };
+
+tests:
+- value: 2
+  min: 1
+  max: 3
+  required: true
+- value: 5
+  min: 1
+  max: 4
+  required: true
+  throws: "exemplo: O valor máximo permitido é 4"
+- value: 6
+  required: true
+- value: 1
+  min: 2
+  required: true
+  throws: "exemplo: O valor minimo permitido é 2"

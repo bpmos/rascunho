@@ -1,0 +1,31 @@
+description:
+  pt_br: cadastro de endereco
+type: complex
+complex:
+  logradouro:
+      required: true
+      caption:
+          pt_br: logradouro
+      type: type.string
+  numero:
+      caption:
+          pt_br: numero
+      type: type.number
+  cep:
+      caption:
+          pt_br: cep
+      type: type.number
+  complemento:
+      caption:
+          pt_br: complemento
+      type: type.string
+  cidade:
+      required: true
+      caption:
+          pt_br: cidade
+      type: type.string
+  estado:
+      required: true
+      caption:
+          pt_br: estado
+      type: type.string

@@ -1,0 +1,74 @@
+Bizdoc:
+  description: Informaçoes do quadro de funcionarios
+  type: arrayOf
+  arrayOf:
+    nome:
+      type: /pkg/hfw/type.string
+      required: true
+      min: 3
+      caption:
+        pt_br: Nome
+    data_nascimento:
+        type: /pkg/hfw/type.date
+        required: true
+        caption:
+          pt-br: Data Nascimento
+    rg:
+      type: /pkg/hfw/type.number
+      required: true
+      min: 5
+      caption:
+        pt_br: RG
+    cpf:
+      type: /pkg/hfw/type.number
+      required: true
+      min: 11
+      caption:
+        pt_br: CPF
+    endereco:
+      type: /pkg/hfw/type.endereco
+      required: true
+      min: 10
+      caption:
+        pt_br: Endereço
+    sexo:
+      type: /pkg/hfw/type.enum
+      required: true
+      min: 1
+      caption:
+        pt_br: Sexo
+    telefone:
+      type: /pkg/hfw/type.number
+      required: true
+      min: 10
+      caption:
+        pt_br: Telefone
+    cargo:
+      type: /pkg/hfw/type.string
+      required: true
+      min: 1
+      caption:
+        pt_br: Cargo
+    soldo:
+      type: /pkg/hfw/type.number
+      required: true
+      min: 0.01
+      caption:
+        pt_br: Soldo
+
+states:
+  - cadastrado
+actions:
+  cadastra(nome, data_nascimento, rg, cpf, endereco, sexo, telefone, cargo, soldo) // -> cadastrado
+  {
+    bizdoc.nome = nome;
+    bizdoc.data_nascimento = data_nascimento;
+    bizdoc.rg = rg;
+    bizdoc.cpf = cpf;
+    bizdoc.endereco = endereco;
+    bizdoc.sexo = sexo;
+    bizdoc.telefone = telefone;
+    bizdoc.cargo = cargo;
+    bizdoc.soldo = soldo
+    bizdoc.status = "cadastrado";
+  }

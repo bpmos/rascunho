@@ -1,0 +1,19 @@
+Bizdoc:
+  description: Estoque da empresa
+  type: arrayOf
+  arrayOf:
+    quantidade:
+      type: /pkg/hfw//type.string
+      required: true
+      min: 5
+      caption:
+        pt-br: Nome
+    localidade:
+      caption:
+        pt_br: Localidade
+      arrayOf: '/maisPurificadores/pf.empresa.yaml#Empresa'
+    produto:
+      caption:
+        pt_br: Modelo de filtro
+      arrayOf: '/maisPurificadores/pf.produtos.yaml#Produtos'
+

@@ -1,0 +1,38 @@
+process:
+  name: serviço de telemarketing
+  description: contactar o entrevistado
+  value: telemarketing
+activities:
+  - description: apresentar cursos
+    role: atendente de telemarketing
+    type: task
+    actions:
+    bizdoc: /telemarketing/bz.cursos
+  - description: interessou em visitar?
+    role: atendente de telemarketing
+    type: fork
+    branches:
+      - description: não interessou
+        actions:
+        - description: convidar entrevistado e indicar a alguém
+          role: atendente de telemarketing
+          type: task
+          action: gerar documento de rejeição
+          role: atendente de telemarketing
+          type: type
+          actions:
+          - bizdoc: /telemarketing/type.motivos_rejeicao
+          - action: tratar documento de rejeição
+            role: atendente de telemarketing
+            type: task
+      - description: interessou
+        actions:
+        - description: encaminhar entrevistado para a instituição
+          role: atendente de telemarketing
+          type: task
+pools:
+  - role: entrevistado
+  - role: atendente de Telemarketing
+organogram:
+  type: departament
+  description: sala de telemarketing

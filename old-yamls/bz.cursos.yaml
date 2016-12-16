@@ -1,0 +1,30 @@
+bizdoc:
+  description:
+    pt_br: cursos oferecidos
+  type: complex
+  complex:
+    nome:
+        required: true
+        caption:
+            pt_br: nome
+        type: type.string
+    quantidade_de_horas:
+        required: true
+        caption:
+            pt_br: quantidade de horas
+        type: type.number
+    periodo:
+        required: true
+        caption:
+            pt_br: periodo
+        type: type.string
+    valor:
+        required: true
+        caption:
+            pt_br: valor
+        type: type.number
+    vagas_curso:
+        required: true
+        caption:
+            pt_br: quantidade de vagas
+        type: type.number

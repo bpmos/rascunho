@@ -1,0 +1,22 @@
+Objetos:
+  description: Estoque da empresa
+  type: arrayOf
+  arrayOf:
+    desenho:
+      caption:
+        pt_br: Localidade
+      arrayOf: '#Desenho'
+
+Desenho:
+  description: Desenhos de ponto, circulos e retangulos
+  type: complex
+  complex:
+    nome:
+      caption:
+        pt_br: Nome
+      type: desenha/type.string
+    objetos:
+      type: ObjetoDeDesenho[0..20]
+
+Ponto:
+  description: definição de um ponto com X e Y

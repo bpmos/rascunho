@@ -1,0 +1,45 @@
+description:
+    pt_br: dados pessoais
+type: complex
+complex:
+    nome:
+      type: type.string
+      required: true
+      caption:
+        pt_br: nome
+        en: name
+    data_de_nascimento:
+        caption:
+             pt_br: data de nascimento
+        required: true
+        type: type.date
+    sexo:
+        caption:
+             pt_br: sexo
+        required: true
+        type: type.string
+    telefones:
+        arrayOf: /telemarketing/type.telefone
+        required: true
+        min: 1
+        caption:
+            pt_br: telefones
+    email:
+        type: type.email
+        required: true
+        min: 1
+        caption:
+            pt_br: email
+    Endereco:
+        required: true
+        caption:
+            pt_br: endereco
+            en: address
+        type: /telemarketing/type.endereco
+    cpf:
+        caption:
+            pt_br: cpf
+        min: 11
+        max: 11
+        required: false
+        type: type.num

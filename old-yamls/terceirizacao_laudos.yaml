@@ -1,0 +1,26 @@
+process:
+  name: Terceirização de Laudos
+  description: Processo que envia material coletado para outro laboratório fazer analise
+  value: Terceirizacao
+activities:
+- description: Registro de Saida de Amostras para Usina de Laudos
+  role: Técnico de Laboratório
+  type: task
+- description: Envia Amostras
+  role: Técnico de Laboratório
+  type: task
+- description: Faz Exames e Libera Resultados
+  role: Terceiros
+  type: task
+- description: Recebe o laudo
+  role: Técnico de Laboratório
+  type: task
+- description: Disponibiliza laudo para paciente
+  role: Técnico de Laboratório
+  type: task
+pools:
+- role: Terceiros
+- role: Técnico de Laboratório
+organogram:
+  type: unit
+  description: Seções Técnicas

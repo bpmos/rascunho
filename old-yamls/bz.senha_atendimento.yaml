@@ -1,0 +1,43 @@
+bizdoc:
+    description: senha de atendimento
+    type: complex
+    complex:
+        numero_senha:
+            type: ../pkg/hfw/type.number
+            required: true
+            caption:
+                pt-br: Senha
+        data_de_chegada:
+            type: ../pkg/hfw/type.date_e_time
+            required: true
+            caption:
+                pt-br: Data de chegada
+        atendimento_prioriario:
+            type: ../pkg/hfw/type.boolean
+            required: true
+            caption:
+                pt-br: Atendimento Prioritário
+        data_encerrada:
+            type: ../pkg/hfw/type.date_e_time
+            caption:
+                pt-br: Data de Encerrada
+        atendente:
+            type: ../pkg/hfw/type.string
+            caption:
+                pt-br: Atendente
+
+states:
+  - emitido
+  - encerrado
+actions:
+  emitir(prioritario) // -> emitido
+  {
+    bizdoc.numero_senha = gerar_numero_senha();
+    bizdoc.data_chegada = new Date()
+    bizdoc.prioridade = prioritario;
+  }
+  encerrar() // emitido -> encerrado
+  {
+    bizdoc.data_encerrada = new Date();
+    bizdoc.atendente = Global.currentUser;
+  }

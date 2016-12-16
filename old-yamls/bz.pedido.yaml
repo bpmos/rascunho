@@ -1,0 +1,40 @@
+Bizdoc:
+  description: Informaçoes do pedido
+  type: complex
+  complex:
+    cliente:
+      caption:
+        pt_br: Cliente
+      arrayOf: '/maisPurificadores/pf.clientes.yaml#Clientes'
+    data:
+        type: /pkg/hfw/type.date
+        required: true
+        caption:
+          pt-br: Data
+    numero:
+      type: /pkg/hfw/type.number
+      required: true
+      min: 1
+      caption:
+        pt_br: Número do pedido
+    produtos:
+      caption:
+        pt_br: Produtos
+      arrayOf: '/maisPurificadores/pf.produtos.yaml#Produtos'
+    resposavel_venda:
+      caption:
+        pt_br: Responsável
+      arrayOf: '/maisPurificadores/pf.funcionarios.yaml#Funcionarios'
+
+states:
+  - emitido
+actions:
+  emitePedido(cliente, data, numero, produtos, reponsavel_venda) // -> emitido
+  {
+    bizdoc.cliente = cliente;
+    bizdoc.data = new Date();
+    bizdoc.numero = numero;
+    bizdoc.produtos = produtos;
+    bizdoc.reponsavel_venda = reponsavel_venda;
+    bizdoc.status = "emitido";
+  }

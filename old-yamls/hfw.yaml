@@ -1,0 +1,4 @@
+package: /h5/hfw
+
+requires:
+- /h5/hlib

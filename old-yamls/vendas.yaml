@@ -1,0 +1,60 @@
+process:
+  name: Vendas
+  description: Processo que especifica etapas para a realização de uma venda
+  value: Vendas
+activities:
+- description: Oferecer produtos e serviços
+  role: Vendedor
+  type: task
+- description: Aplicar técnicas de vendas
+  role: Vendedor
+  type: task
+- description: Propor facilidades
+  role: Vendedor
+  type: task
+- description: Interessado?
+  role: Vendedor
+  type: fork
+  branches:
+  - description: Sim
+    steps:
+	- descrition: Produto ou serviço?
+	  role: Vendedor
+	  type: fork
+	  branches:
+	  - description: Produto
+	    steps:
+        - description: Recolher informação do produto escolhido
+          role: Vendedor
+          type: task
+        - description: Consultar depósito
+          role: Vendedor
+          type: task
+        - description: Confirmar itens do pedido
+          role: Cliente
+          type: task
+        - description: Tirar pedido
+          role: Vendedor
+          type: task
+        actions:
+        - bizdoc: /maisPurificadores/bz.pedido
+          action: emitePedido
+      - description: Serviço
+	    steps:
+		- description: Abrir Ordem de serviço
+		  role: Vendedor
+		  type: task
+        actions:
+        - bizdoc: /maisPurificadores/bz.ordemServico
+          action: abreOS
+  - description: Não
+    steps:
+	- description: Registrar motivo da rejeição
+	  role: Vendedor
+	  type: task
+pools:
+- role: Cliente
+- role: Vendedor
+organogram:
+  type: unit
+  description: Vendas

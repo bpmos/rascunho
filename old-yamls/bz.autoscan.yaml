@@ -1,0 +1,74 @@
+bizdoc:
+  description:
+    pt_br: Video documentação de veículos
+    en: Video documentation of vehicles
+  type: Veiculo
+  version: 1
+
+Veiculo:
+  description:
+    pt_br: Dados do veículo e do proprietário do veículo
+    en: Data of the vehicle and the vehicle owner
+  type: complex
+  complex:
+    placa:
+      type: /autoscan/type.placa
+      required: true
+      caption:
+        pt_br: Placa
+        en: Board
+    proprietario:
+      type: /pkg/hfw/type.string
+      requerid: true
+      caption:
+        pt_br: Proprietário
+        en: Owner
+    contato:
+      type: /pkg/hfw/type.number
+      requerid: false
+      caption:
+        pt_br: Telefone para contato
+        en: Contact phone
+    video:
+      arrayOf: Video
+      requerid: true
+      caption:
+          pt_br: Video documentação
+          en: Video documentation
+    #pensar nas mensagens
+    mensagens:
+      arrayOf: Sms
+      requerid: false
+      caption:
+        pt_br: Mensagens enviadas
+        en: Messages sent
+    situacao_atual:
+      type: complex
+      complex:
+        situaco:
+          type: /pkg/hfw/type.string
+          requerid: true
+          caption:
+            pt_br: Situação atual do veículo
+            en: State of vehicle
+        data:
+
+
+Video:
+  description:
+    pt_br: Filmagem de um carro
+    en: Recording a car
+  type: complex
+  complex:
+    conteudo:
+      type: /autoscan/type.video
+      requerid: true
+      caption:
+        pt_br: Video documentação
+        en: Video documantation
+    data_filmagem:
+      type: /autoscan/type.data
+      required: true
+    situacao_banco:
+      type: /pkg/hfw/type.string
+      required: true

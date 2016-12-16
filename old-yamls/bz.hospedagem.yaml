@@ -1,0 +1,150 @@
+Hospedagem:
+  description: hospedagem de um cliente
+  type: complex
+  complex:
+    check-in:
+      caption:
+        pt-br: Registrar entada
+        en: Check-in
+      typeOfComplex: '#Check-in'
+    check-out:
+      caption:
+        pt-br: Registrar saida
+        en: Check-out
+      typeOfComplex: '#Check-out'
+
+Checkin:
+  Description: Registro de verificaçao realizado quando o hospede chega ao estabelecimento
+  type: complex
+  complex:
+      id_checkin:
+      type: /pkg/hfw/type.float
+      required: true
+      min: 1
+      caption:
+        pt-br: Identificação do check-in
+        en: Check-in identification
+      dados_cliente:
+        caption:
+          pt-br: Dados
+          en: Customer
+        typeOfComplex: '/pozzo/bz.hospede.yaml#Hospede'
+      data:
+        type: /pkg/hfw/type.date
+        required: true
+        min: 0
+        caption:
+          pt-br: Data
+          en: Date
+      acomodacao:
+        caption:
+          pt-br: Acomodacao
+          en: Accommodations
+        arrayOfComplex: '/pozzo/bz.estabelecimento.yaml#Acomodacoes'
+      dados_hotel:
+        caption:
+          pt-br: Serviço
+          en: Service
+      arrayOfComplex: '/pozzo/bz.estabelecimento.yaml'
+
+Checkout:
+  Description: Registro realizado quando o hospede sai do estabelecimento
+  type: complex
+  complex:
+      dados_hospede:
+        caption:
+          pt-br: Dados do hospede
+          en: Customer data
+        typeOfComplex: '/pozzo/bz.hospede.yaml#Hospede'
+      data:
+        type: /pkg/hfw/type.date
+        required: true
+        min: 1
+        caption:
+          pt-br: Data do check-out
+          en: Date of check-out
+      acomodacao:
+        caption:
+          pt-br: Acomodacao
+          en: Accommodations
+        arrayOfComplex: '/pozzo/bz.estabelecimento.yaml#Acomodacoes'
+      pendenciasPorDanos:
+        caption:
+          pt-br: Pendencias
+          en: Pending
+        arrayOf: '#PendenciasPorDanos'
+
+PendenciasPorDanos:
+  Description: Registra pendencias do cliente que tenha sido causada por danos no estabelecimento
+  type: arrayOf
+  arrayOf:
+    data:
+      type: /pkg/hfw/type.date
+      required: true
+      min: 1
+      caption:
+        pt-br: Data
+        en: Date
+    acomodacao:
+        caption:
+          pt-br: Acomodacao
+          en: Accommodations
+        arrayOfComplex: '/pozzo/bz.estabelecimento.yaml#Acomodacoes'
+    descricao:
+      type: /pkg/hfw//type.string
+      required: true
+      min: 10
+      caption:
+        pt-br: Descriçao
+        en: Description
+
+Financeiro:
+  Description: Armazena as informaçoes referente aos pagamentos realizado pelo cliente
+  type: arrayOf
+  arrayOf:
+    estado:
+      type: /pkg/hfw//type.boolean
+      required: true
+      min: 1
+      caption:
+        pt-br: estado
+        en: state
+    data:
+      type: /pkg/hfw//type.date
+      required: true
+      min: 0
+      caption:
+        pt-br: Data
+        en: Date
+    valor:
+      type: /pkg/hfw//type.number
+      required: true
+      min: 0.01
+      caption:
+        pt-br: Data
+        en: Date
+    descricao:
+      type: /pkg/hfw//type.string
+      required: true
+      min: 10
+      caption:
+        pt-br: Descriçao
+        en: Description
+
+
+states:
+  - emitido
+  - encerrado
+actions:
+  emitir(doc) // -> emitido
+  {
+    bizdoc.doc = new ();
+  }
+  encerrar() // emitido -> encerrado
+  {
+    bizdoc.doc.end();
+  }
+  end()
+  {
+    #todo
+  }

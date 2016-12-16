@@ -1,0 +1,98 @@
+process:
+  name: Atendimento
+  description: Processo para atender pacientes de convênio e particulares
+  value: Recepção
+activities:
+- description: Chama o Paciente pela senha
+  role: Paciente
+  type: task
+- description: Encerra Senha
+  role: Atendente
+  type: task
+  actions:
+  - bizdoc: /atalaia/bz.senha_atendimento
+    action: encerrar
+- description: Analisa Documentação do Paciente
+  role: Atendente
+  type: task
+- description: Cadastra no sistema Exames solicitados
+  role: Atendente
+  type: task
+- description: Cadastra Informações Complementares por exame
+  role: Atendente
+  type: type
+- description: É convênio?
+  type: fork
+  branches:
+    - description:  sim
+      steps:
+      - description: autorizou?
+        type: fork
+        branches:
+          - description: sim
+            steps:
+            - description: Registra no Faturamento a autorização do Convênio
+              role: Atendente
+              type: task
+              actions:
+              - bizdoc: /atalaia/bz.guia
+                action: registra_faturamento
+          - description: não
+            steps:
+            - description: Informa valor total dos exames a serem realizados
+              role: Atendente
+              type: task
+            - description: Vai fazer os exames?
+              type: fork
+              branches:
+                - description: sim
+                  steps:
+                    - goto: Paga o Valor informado
+    - description: não
+      steps:
+      - description: Informa valor total dos exames a serem realizados
+        role: Atendente
+        type: task
+      - description: Vai fazer os exames?
+        type: fork
+        branches:
+          - description: sim
+            steps:
+              - description: Paga o Valor informado
+                role: Paciente
+                type: task
+              - description: Registra no Caixa o valor recebido
+                role: Caixa
+                type: task
+                actions:
+                - bizdoc: /atalaia/bz.caixa
+                  action: registra_pagamento
+- description: Efetua Cadastro do Paciente
+  role: Atendente
+  type: type
+  actions:
+  - bizdoc: /atalaia/bz.cadastro_paciente
+    action: cadastra
+- description: Gera Pedido de Coleta do Paciente
+  role: Atendente
+  type: type
+  actions:
+  - bizdoc: /atalaia/bz.pedido_coleta
+    action: gera_pedido
+- description: Encaminha o paciente para a área de coleta
+  role: Atendente
+  type: type
+pools:
+- role: Paciente
+- role: Caixa
+- role: Recepcionista
+organogram:
+  type: unit
+  description: Atendimento
+KPI:
+- Quantidade de atendimento pelo convenio
+- Quantidade de atendimento pelo particular
+- Tempo médio de espera do paciente
+- Tempo total de atendimento
+- Quantidade de exames
+- Total $ dos exames / Ticket médio

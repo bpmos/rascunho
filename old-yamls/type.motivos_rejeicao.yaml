@@ -1,0 +1,9 @@
+description:
+  pt_br: motivo que entrevistado informou para recusar o curso
+type: complex
+complex:
+  reacao:
+      caption:
+          pt_br: motivo do entrevistado
+      min: 1
+      type: type.String

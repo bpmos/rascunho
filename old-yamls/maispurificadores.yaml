@@ -1,0 +1,71 @@
+organization:
+    description: Mais Purificadores
+    ramo atividade: Atua no mercado de purificadores e processadores para tratamento de água
+    vision: Proporcionar qualidade em novidade de vida, previnir e tratar enfermidades através de uma água de qualidade
+    mission: Levar a empresa a um nível de excelência proporcionando aos clientes atendimento de qualidade.
+    values:
+        - Ética, Integridade e Responsabilidades formam a empresa
+        - Somos movidos por um sonho
+        - Os resultados impulsionam nosso crescimento
+        - Nossos clientes são nossa prioridade
+        - Trabalhamos com excelência de qualidade
+    internal strengths:
+        - A mais alta tecnologia em purificação de água com certificação
+        - Atendimento técnico com excelência
+    internal weaknesses:
+        - Falta de profissinais capacitados
+    external opportunities:
+        - Produtos Alcalinos
+        - Água imantada
+    external threats:
+        - Alto crescimento de concorrentes
+    products:
+        - Pentair:
+            relative market share: High
+            market growth rate: High
+        - Soft:
+            relative market share: High
+            market growth rate: High
+        - NewUp:
+            relative market share: Low
+            market growth rate: Low
+        - Latina:
+            relative market share: Low
+            market growth rate: Low
+        - Brastemp:
+            relative market share: High
+            market growth rate: Low
+        - ColorMaq:
+            relative market share: Low
+            market growth rate: Low
+    primary activities:
+        - Telemarketing
+        - Venda
+        - Assistência Técnica
+    support activities:
+        - Administração
+        - Treinamento
+    management activities:
+        - Diretoria
+    organogram:
+      - description: Diretoria
+        type: department
+        inner:
+        - description: Matriz
+          type: unit
+          inner:
+          - description: Administração
+            type: department
+          - description: Treinamento
+            type: department
+          - description: Assistência Técnica
+            type: department
+        - description: Anápolis
+          type: unit
+          inner:
+          - description: Administração
+            type: department
+          - description: Treinamento
+            type: department
+          - description: Assistência Técnica
+            type: department

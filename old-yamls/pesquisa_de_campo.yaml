@@ -1,0 +1,51 @@
+process:
+  name: pesquisa de campo
+  description: abordar pessoa e fazer entrevista
+  value: pesquisa
+activities:
+  - description: inicia lista de perguntas básicas
+    role: pesquisador
+    type: type
+    actions:
+    - bizdoc: /telemarketing/bz.contato
+  - description: tem interesse em fazer algum curso?
+    role: pesquisador
+    type: fork
+    branches:
+      - description: sim
+        action:
+        - description: convidar a visitar instituição
+          role: pesquisador
+          type: task
+      - description: não
+        actions:
+        - description: usar estratégia de vendas
+          role: pesquisador
+          type: task
+        - description: entrevistado aceitou?
+          role: pesquisador
+          type: fork
+          branches:
+            - description: sim
+              action:
+                - goto: convidar a visitar instituição
+            - description: não
+              actions:
+                - description: gerar documento de rejeição
+                  role: pesquisador
+                  type: type
+                  actions:
+                  - bizdoc: /telemarketing/type.motivos_rejeicao
+                  - action: tratar documento de rejeição
+                    role: pesquisador
+                    type: task
+pools:
+  - role: entrevistado
+  - role: pesquisador
+organogram:
+  type: departament
+  description: sala de pesquisa
+KPI:
+- Pesquisa / Quantidade de entrevistados
+- Quantidade de pessoas com o mesmo motivo multiplicado por 100 e dividido pelo total de pessoas entrevistadas
+- Percentual de pessoas que não aceitaram fazer algum curso

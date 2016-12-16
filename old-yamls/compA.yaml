@@ -1,0 +1,5 @@
+package: /h5/transforma/yaml/pkg/compA
+
+requires:
+- /h5/transforma/yaml/pkg/compB
+- /h5/transforma/yaml/pkg/compD

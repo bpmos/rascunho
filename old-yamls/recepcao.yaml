@@ -1,0 +1,64 @@
+process:
+  name: recepcão do Instituto de Cursos
+  description: recepcionar entrevistados e clientes
+  value: vendas
+activities:
+  actions:
+  - description: recepcionar entrevistado
+    role: recepcionista
+    type: type
+    actions:
+  - description: apresentar local a entrevistado
+    role: recepcionista
+    type: task
+  - description: apresentar cursos
+    role: recepcionista
+    type: type
+    actions:
+    - bizdoc: /telemarketing/bz.cursos
+  - description: gostaria de fazer matricula?
+    role: Recepção
+    type: fork
+    branches:
+      - description: sim
+        actions:
+        - description: gerar documento de matricula
+          role: recepcionista
+          type: task
+          action:
+          - bizdoc: /telemarketing/bz.matricula
+      - description: não
+        action:
+        - description: adequar entrevistado aos cursos
+          role: recepcionista
+          type: task
+        - description: tentativa de convencimento da recepção
+          role: rcepcionista
+          type: fork
+          branches:
+            - description: sim
+              action:
+              - goto: gerar documento de matricula
+            - description: não
+              actions:
+              - description: convidar a voltar na instituição
+                role: recepcionista
+                type: task
+                action:
+              - description: gerar documento de rejeição
+                role: recepcionista
+                type: type
+                action:
+                - bizdoc: /telemarketing/type.motivos_rejeicao
+                - action: tratar documento de rejeição
+                  role: recepcionista
+                  type: task
+pools:
+  - role: entrevistado
+  - role: recepcionista
+organogram:
+  type: departament
+  description: recepção
+KPI:
+- Visita de entrevistado
+- Visitas / pesquisa * 100

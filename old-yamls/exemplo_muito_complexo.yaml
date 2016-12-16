@@ -1,0 +1,82 @@
+datatype:
+  base: complex
+complex:
+  nome:
+    type: /h5/transforma/yaml/bz/type_string
+    caption:
+      pt_br: Nome
+    required: true
+    min: 5
+    max: 10
+  tipo:
+    caption:
+      pt_br: tipo de pessoa
+    states:
+       funcionario:
+         value: 1
+         caption:
+           pt_br: Funcionário
+       cliente:
+         value: 2
+         caption:
+           pt_br: Cliente
+  endereco:
+    caption:
+      pt_br: Endereço
+      en: Address
+    required: false
+    complex:
+      rua:
+        caption:
+          pt_br: Rua
+          en: Street
+        type: /h5/transforma/yaml/bz/type_string
+        required: false
+      cidade:
+        caption:
+          pt_br: Cidade
+          en: City
+        type: /h5/transforma/yaml/bz/type_string
+        required: true
+  telefones:
+    caption:
+      pt_br: Telefones
+      en: Phones
+    type: /h5/transforma/yaml/bz/type_string[0..5]
+#  referencias:
+#    caption:
+#      pt_br: Referências pessoais
+#    type: complex[1..3]
+#    complex:
+#      nome:
+#        type: /h5/transforma/yaml/bz/type_string
+#        caption:
+#          pt_br: Nome
+#        min: 5
+#        max: 40
+#      tipo:
+#        type: /h5/transforma/yaml/bz/type_string
+#        caption:
+#          pt_br: Tipo do relacionamento
+#      telefone:
+#        type: /h5/transforma/yaml/bz/type_string
+#        caption:
+#          pt_br: Telefone
+
+tests:
+- value: | !json
+  required: true
+  throws: "Nome: Campo obrigatório"
+
+- value: | !json
+    {"nome": "Maria"}
+  required: true
+
+- value: | !json
+    {"nome": "Maria"}
+  required: false
+
+- value: | !json
+     {"nome": "Ana"}
+  required: true
+  throws: "Nome: Campo deve ter pelo menos 5 caracteres"

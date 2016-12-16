@@ -1,0 +1,87 @@
+Bizdoc:
+  description: Informaçoes dos clientes
+  type: arrayOf
+  arrayOf:
+    nome:
+      type: /pkg/hfw/type.string
+      required: true
+      min: 5
+      caption:
+        pt_br: Nome
+    data_nascimento:
+        type: /pkg/hfw/type.date
+        required: true
+        caption:
+          pt-br: Data Nascimento
+    rg:
+      type: /pkg/hfw/type.number
+      required: true
+      min: 1
+      caption:
+        pt_br: RG
+    cpf:
+      type: /pkg/hfw/type.number
+      required: true
+      min: 1
+      caption:
+        pt_br: CPF
+    endereco:
+      type: /pkg/hfw/type.endereco
+      required: true
+      min: 10
+      caption:
+        pt_br: Endereço
+    cartao_fidelidade:
+      type: /pkg/hfw/type.enum
+      required: false
+      min: 1
+      caption:
+        pt_br: Cartão fidelidade
+    telefone:
+      type: /pkg/hfw/type.number
+      required: true
+      min: 10
+      caption:
+        pt_br: Telefone
+    sexo:
+      type: /pkg/hfw/type.enum
+      required: true
+      min: 1
+      caption:
+        pt_br: Sexo
+    pessoa_contato:
+      type: /pkg/hfw/type.string
+      required: false
+      min: 5
+      caption:
+        pt_br: Pessoa de Contato
+    tipo_filtro:
+      caption:
+        pt_br: Modelo de filtro
+      arrayOf: '/maisPurificadores/pf.modelo_filtros.yaml#ModeloFiltro'
+    data_ultima_troca:
+        type: /pkg/hfw/type.date
+        required: false
+        caption:
+          pt-br: Data da última troca
+    data_proxima_troca:
+        type: /pkg/hfw/type.date
+        required: false
+        caption:
+          pt-br: Data da Próxima troca
+
+states:
+  - cadastrado
+actions:
+  cadastra(nome, data_nascimento, rg, cpf, endereco, sexo, telefone, pessoa_contato) // -> cadastrado
+  {
+    bizdoc.nome = nome;
+    bizdoc.data_nasc = data_nascimento;
+    bizdoc.rg = rg;
+    bizdoc.cpf = cpf;
+    bizdoc.sexo = sexo;
+    bizdoc.endereco = endereco;
+    bizdoc.telefone = telefone;
+    bizdoc.pessoa_contato = pessoa_contato
+    bizdoc.status = "cadastrado";
+  }

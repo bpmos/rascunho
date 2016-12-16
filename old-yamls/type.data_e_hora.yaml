@@ -1,0 +1,14 @@
+description:
+  pt_br: objeto de data e hora
+type: complex
+complex:
+  data:
+      required: true
+      caption:
+          pt_br: data
+      type: type.date
+  hora:
+      required: true
+      caption:
+          pt_br: hora
+      type: type.hora

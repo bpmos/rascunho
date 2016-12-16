@@ -1,0 +1,135 @@
+organization:
+    description: Laboratorio Atalaia
+    vision: Proporcionar a todas as classes sociais acesso a serviços e
+        produtos relacionados à saúde, com qualidade e tecnologia atualizadas.
+    mission: Ser a melhor empresa do mundo em medicina diagnóstica e
+        uma das maiores no setor.
+    values:
+        - Ética e Integridade determinam nossas ações
+        - Somos movidos por um sonho
+        - Pensamos e agimos como donos
+        - Temos orgulho de nossa empresa e nossas marcas
+        - Os resultados impulsionam nosso crescimento
+        - Cuidamos dos nossos clientes
+        - Trabalhamos com excelência
+        - Queremos as melhores pessoas e lideramos pelo exemplo
+    internal strengths:
+        - Equipamentos de ultima geracao
+        - Melhores biometicos e bioquimicos
+        - Investimento em garantia de qualidade
+    internal weaknesses:
+        - Administração a distância
+        - Dificuldade de mudança devido ao seu tamanho
+    external opportunities:
+        - Mercado de diagnóticos em Goiânia está crescendo
+        - Novos mercados de diagnóticos têm surgido
+    external threats:
+        - Crescimento da concorrência
+        - Força dos Convêncios
+    products:
+        - Analises Clínicas:
+            relative market share: High
+            market growth rate: Low
+        - Anatomia Patologica:
+            relative market share: High
+            market growth rate: Low
+        - Diagnótico por imagem:
+            relative market share: Low
+            market growth rate: High
+    primary activities:
+        - Recepção
+        - Coleta
+        - Usina de Laudos
+        - Laudos
+    support activities:
+        - TI
+        - Almoxarifado
+        - Tesouraria
+        - Faturamento
+        - Financeiro
+        - Seções Técnicas
+            - Terceirizacao
+              - Hermes Pardini
+              - Alvaro
+            - Hematologia
+            - Uranalise
+            - Parasitologia
+            - Bioquimica
+            - Hormonios
+            - Citologia
+        - Diretoria
+    organogram:
+      - description: Diretoria
+        type: department
+        inner:
+        - description: TI
+          type: department
+        - description: Matriz
+          type: unit
+          inner:
+          - description: Pré Atendimento
+            type: department
+          - description: Atendimento
+            type: department
+          - description: Coleta
+            type: department
+          - description: Entrega de Laudos
+            type: department
+          - description: Apoio (Usina)
+            type: department
+          - description: Almoxarifado
+            type: department
+          - description: Tesouraria
+            type: department
+          - description: Faturamento
+            type: department
+          - description: Financeiro
+            type: department
+          - description: Seções Técnicas
+            type: departments
+            inner:
+            - description: Hematologia
+              type: department
+            - description: Uranalise
+              type: department
+            - description: Parasitologia
+              type: department
+            - description: Bioquimica
+              type: department
+            - description: Hormonios
+              type: department
+            - description: Citologia
+              type: department
+        - description: Posto Sul
+          type: unit
+          inner:
+          - description: Pré Atendimento
+            type: department
+          - description: Atendimento
+            type: department
+          - description: Coleta
+            type: department
+          - description: Entrega de Laudos
+            type: department
+        - description: Posto Bueno
+          type: unit
+          inner:
+          - description: Pré Atendimento
+            type: department
+          - description: Atendimento
+            type: department
+          - description: Coleta
+            type: department
+          - description: Entrega de Laudos
+            type: department
+        - description: Posto Aeroporto
+          type: unit
+          inner:
+          - description: Pré Atendimento
+            type: department
+          - description: Atendimento
+            type: department
+          - description: Coleta
+            type: department
+          - description: Entrega de Laudos
+            type: department

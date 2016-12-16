@@ -1,0 +1,39 @@
+bizdoc:
+  description: Emite protocolo de atendimento
+  type: complex
+  complex:
+    paciente:
+      type: /atalaia/bz.cadastro_paciente
+      required: true
+      caption:
+        pt-br: Paciente
+    exames:
+      arrayOf: /atalaia/bz.exame
+      required: true
+      caption:
+        pt-br: Exame
+    usuario:
+      type: ../pkg/hfw/type.string
+      required: true
+      caption:
+        pt-br: Usuario
+    senha:
+      type: ../pkg/hfw/type.password
+      required: true
+      caption:
+        pt-br: Senha
+    data_entrega_laudos:
+      type: ../pkg/hfw/type.data_e_hora
+      required: true
+      caption:
+        pt-br: Data de Entrega
+states:
+  - impresso
+actions:
+  emite_protocolo() // -> impresso
+  {
+    bizdoc.paciente = paciente;
+    bizdoc.pedido = pedido
+    bizdoc.cod_barras = gera_cod_barras();
+    bizdoc.status = "impresso";
+  }

@@ -1,0 +1,70 @@
+process:
+  name: Check-in
+  description: Processo de check-in do cliente
+  value: Check-in
+activities:
+- description: Chega à recepção do hotel
+  role: Cliente
+  type: Task
+- description: Há reservas?
+  role: Hotel
+  type: fork
+  branches:
+    - description: sim
+      steps:
+      - description: dados corretos?
+        role: Hotel
+        type: fork
+        branches:
+          - description: sim
+            steps:
+            - description: Efetua check-in
+              role: Hotel
+              type: Task
+              bizdoc: '/pozzzo/bz.hospedagem.yaml'
+              action: checkin
+          - description: nao
+            steps:
+            - description: Há quartos disponíveis?
+              role: Hotel
+              type: fork
+              branches:
+                - description: sim
+                  steps:
+                  - description: efetua check-in
+                    role: Hotel
+                    type: Task
+                    bizdoc: '/pozzzo/bz.hospedagem.yaml'
+                    action: checkin
+                - description: nao
+                  steps:
+                  - descritpion: Finaliza processo
+                    role: Hotel
+                    type: Task
+    - description: nao
+      steps:
+      - description: Há quartos disponíveis?
+        role: Hotel
+        type: fork
+        branches:
+        - description: sim
+          steps:
+          - description: efetua check-in
+            role: Hotel
+            type: Task
+            bizdoc: '/pozzzo/bz.hospedagem.yaml'
+            action: checkin
+        - description: nao
+          steps:
+          - descritpion: Finaliza processo
+            role: Hotel
+            type: Task
+pools:
+- role: Hotel
+- role: Cliente
+organogram:
+  type: unit
+  description: Check-in
+KPI:
+  - Tempo médio que cliente demora na recepção
+  - Quantidade de pessoas que foram até o hotel e não se hospedaram, e motivos.

@@ -1,0 +1,67 @@
+datatype:
+  base: string
+properties:
+  required:
+    type: boolean
+    required: true
+  min:
+    type: number
+    required: false
+  max:
+    type: number
+    required: false
+validate: | !js
+  var v=value;
+  if (v)
+  {
+    if (typeof v !== 'string')
+      throw "O valor não é do tipo string";
+    var l=v.trim().length;
+    if (l==0 && required)
+      throw "Campo obrigatório";
+    if (min && l < min)
+      throw "Campo deve ter pelo menos "+ min +' caracteres';
+    if ( max && l > max)
+      throw "Campo pode ter no máximo "+ max +' caracteres';
+  }
+  else if(required)
+    throw "Campo obrigatório";
+init: | !js
+  if (typeof value=='string')
+    return value.trim();
+  if (value)
+    return value.toString().trim();
+  return null;
+
+tests:
+- value: 'x'
+  min: 1
+  max: 5
+  required: true
+
+- value: 'x'
+  min: 3
+  max: 5
+  required: true
+  throws: "exemplo: Campo deve ter pelo menos 3 caracteres"
+
+- value: "123'456"
+  min: 3
+  max: 5
+  required: true
+  throws: "exemplo: Campo pode ter no máximo 5 caracteres"
+
+- value: " "
+  required: true
+  throws: "exemplo: Campo obrigatório"
+
+- value: "123 \n456"
+  min: 3
+  max: 10
+  required: true
+
+- value: 12345
+  min: 1
+  max: 4
+  required: true
+  throws: "exemplo: O valor não é do tipo string"

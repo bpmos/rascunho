@@ -1,0 +1,34 @@
+bizdoc:
+    description: Recebe material para analise
+    type: complex
+    complex:
+        laboratorio:
+            type: /atalaia/bz.laboratorio
+            required: true
+            caption:
+                pt-br: Cliente
+        pedido:
+            type: /atalaia/bz.pedido_coleta
+            required: true
+            caption:
+                pt-br: Pedido
+        resultados_analises:
+            required: true
+            caption:
+                pt-br: Resultado de Analise
+            complex:
+                nome_exame:
+                  type: ../pkg/hfw/type.string
+                  required: true
+                  caption:
+                    pt-br: Nome do Exame
+                margem_do_exame:
+                  type: ../pkg/hfw/type.string
+                  required: true
+                  caption:
+                    pt-br: Margem do Exame
+                resultado_encontrado:
+                  type: ../pkg/hfw/type.string
+                  required: true
+                  caption:
+                    pt-br: Resultado

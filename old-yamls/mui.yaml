@@ -1,0 +1,27 @@
+theme: mui  # Exemplo ainda nao implementado
+
+third:
+- react.js
+- mui-react.js
+- mui.css
+
+initialization:
+  h5.ui.createElement = react.createElement;
+
+/h5/type/string:
+  render: |
+    return <MUIFormGroup type='text' label={caption.i18n} value={value} isLabelFloating={true} class={flags}/>
+  css: |
+    .tem_erro { color: red }
+
+/h5/type/enum:
+  render:
+  - without flags: |
+      <select value={} onChange={mudarLinguagem}>
+        {
+                 <option value="pt_br">pt-br</option>
+                 <option value="en">en</option>
+      </select>
+  - with icon-only:
+
+  css:

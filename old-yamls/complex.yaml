@@ -1,0 +1,32 @@
+teste yamlx: | !js
+  var x=1;
+  if (x=="xxx")
+    return 7;
+
+var yamlx2:
+  js: | !js
+    return 1;
+  css: | !css
+    .test{
+      width: 2
+    }
+datatype:
+  base: string
+a: 1
+validate: |
+  var y;
+  if (!value && required)
+    throw "Campo obrigatório";
+
+switch: |
+  switch(a){
+     case 1:
+       um();
+       break;
+     case 2:
+       dois();
+       break;
+     default:
+       outro();
+       break;
+  }

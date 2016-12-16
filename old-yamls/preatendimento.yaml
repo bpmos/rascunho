@@ -1,0 +1,32 @@
+process:
+  name: Pré atendimento
+  description: Processo para validar se paciente está pronto para o atendimento
+  value: Recepção
+activities:
+- description: Solicita Documentação do Paciente
+  role: Paciente
+  type: task
+- description: Analisa Documentação do Paciente
+  role: Recepcionista
+  type: task
+- description: Documentação está correta?
+  role: Recepcionista
+  type: fork exclusive
+  branches:
+  - description: Sim
+    steps:
+    - description: Emite a senha
+      role: Recepcionista
+      type: task
+      actions:
+      - bizdoc: /atalaia/bz.senha_atendimento
+        action: emitir
+    - description: Encaminha o paciente para o atendimento
+      role: Recepcionista
+      type: task
+pools:
+- role: Paciente
+- role: Recepcionista
+organogram:
+  type: unit
+  description: Pré Atendimento

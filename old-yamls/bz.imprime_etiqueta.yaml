@@ -1,0 +1,29 @@
+bizdoc:
+    description: Etiqueta para identificação de amostras de Pacientes
+    type: complex
+    complex:
+        cliente:
+            type: /atalaia/bz.cadastro_paciente
+            required: true
+            caption:
+                pt-br: Cliente
+        pedido:
+            type: /atalaia/bz.pedido_coleta
+            required: true
+            caption:
+                pt-br: Cliente
+        cod_barras:
+            type: ../pkg/hfw/type.codigo_barras
+            required: true
+            caption:
+                pt-br: Nota Fiscal
+states:
+  - emitido
+actions:
+  emite_etiqueta() // -> emitido
+  {
+    bizdoc.paciente = paciente;
+    bizdoc.pedido = pedido
+    bizdoc.cod_barras = gera_cod_barras();
+    bizdoc.status = "emitido";
+  }

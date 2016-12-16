@@ -1,0 +1,158 @@
+bizdoc:
+  description:
+    pt_br: Dados da aplicação
+state:
+  session_id:
+    type: /h5/hfw/type/string
+    required: false
+    caption:
+      pt_br: 'Identificador da sessão atual'
+      en: 'Current session id'
+  language:
+    type: /h5/hfw/language
+    caption:
+      pt_br: 'Idioma'
+      en: 'Language'
+  user:
+    type: /h5/hfw/type/string
+    required: false
+    caption:
+      pt_br: 'Nome do operador logado'
+      en: 'Current logged operator'
+
+keys:
+- sessao:
+    caption:
+      pt_br: Sessão
+      en: Session
+    fields:
+    - session_id
+    generation: false
+    mutable: false
+    regexp: /d+/g
+
+actions:
+  login:
+    caption:
+      pt_br: 'Cria uma nova sessão de login'
+    params:
+      user:
+        type: /h5/hfw/type/string
+      password:
+        type: /h5/hfw/type/string
+    code: |!js
+      if (user=='admin' && password=='123')
+        state.session = {id: 1, user: user};
+  logout:
+    caption:
+      pt_br: 'Exclui a sessão de login atual'
+    params:
+    code: |!js
+      state.session = {};
+#actions:
+#  serveApp:
+#    params:
+#    only: server
+#    imports:
+#      express: express
+#    code: | !js
+#        schema.session_list = {};
+#        schema.session_id_gen = 0;
+#        schema.appexpress = function (route, path, req, res) {
+#
+#            var session = get_session();
+#
+#            if (path == '' || path == '/')
+#                server_index_app();
+#
+#            function server_index_app() {
+#                res.setHeader('Content-Type', 'text/html');
+#                res.cookie(schema.name + "_session", session.session_id);
+#                res.writeHead(200);
+#                res.write('<html>');
+#                res.write('<head>');
+#                res.write('<title>' + schema.title[session.language] + "</title>");
+#                res.write('<script src="/build/debug/browser/h5/hlib-db.js"></script>');
+#
+#                res.write('<script>');
+#                res.write('function start_app(){');
+#                var start_app = ['h5.hlib.h_require(["/h5/hfw-db",',
+#                                 '"/h5/ui-db","' + schema.name + '-db",',
+#                                 '"' + schema.themename + '-db" ], ',
+#                                 'function(err, hfw, ui, app, theme){',
+#                                 '  if(err) {console.log(err);window.alert(err);return}',
+#                                 '  window.app = hfw.application.start_app(app, theme);',
+#                                 '  window.app.ativa_pagelet("apptitle", "/h5/hfw/apptitle-db")',
+#                                 '})'];
+#
+#                res.write(start_app.join('\n') + '}</script>');
+#
+#                res.write('</head>');
+#                res.write('<body onload="start_app()">');
+#                res.write(session.session_id);
+#                res.write('</body>');
+#                res.end('</html>');
+#            }
+#
+#            function get_session() {
+#                var session_id = req.cookies && req.cookies[schema.name + "_session"];
+#                var session;
+#                if (session_id)
+#                    session = schema.session_list[session_id];
+#                if (!session) {
+#                    session_id = '#' + (++schema.session_id_gen) + new Date().getTime();
+#                    session = {
+#                        session_id: session_id,
+#                        language: 'pt_br'
+#                    };
+#                    schema.session_list[session_id] = session;
+#                }
+#                return session;
+#            }
+#        }
+#
+#  start_app:
+#    params:
+#    only: browser
+#    imports:
+#    code: | !js
+#      var app = schema;
+#      var session = {
+#          language: 'pt_br'
+#      };
+#      h5.ui.session = session;
+#      app.pagelets_ativos = {};
+#      app.theme=theme;
+#      app.ativa_pagelet = function (name, mod) {
+#          h5.hlib.h_require1(mod, function (err, pagelet) {
+#              if (err)
+#                  app.alert(err)
+#              var div = document.createElement('div');
+#              document.body.appendChild(div);
+#              var pg = {
+#                  name: name,
+#                  mod: mod,
+#                  render: function () {
+#                      //var e = pagelet.render(app, session);
+#                      //React.render(e, div);
+#                  }
+#              };
+#              app.pagelets_ativos[name] = pg;
+#             pg.render();
+#          });
+#      };
+#      app.renderAll=function(){
+#          for (var pg in app.pagelets_ativos)
+#              pg.render();
+#      };
+#      app.alert = function (s) {
+#          console.log(s);
+#          window.alert(s);
+#      };
+#      app.set_current_language = function (lang) {
+#          session.language = lang;
+#          app.renderAll();
+#      };
+#      return app;
+#
+

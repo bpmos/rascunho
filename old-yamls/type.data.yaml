@@ -1,0 +1,5 @@
+bizdoc:
+  description:
+    pt_br: Data e hora
+    en: Date and time
+  type:

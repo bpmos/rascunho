@@ -1,0 +1,35 @@
+process:
+  name: Check-out
+  description: Processo para efetuar check-out em hotel
+  value: Check-out
+activities:
+- description: Solicitar check-out em hotel
+  role: Cliente
+  type: task
+- description: Verificação sobre a situação do hóspede no hotel
+  role: Hotel
+  type: task
+- description: Pode encerrar a estadia?
+  role: Hotel
+  type: fork
+  branches:
+  - description: Sim
+    steps:
+    - description: Faz check-out
+      role: Hotel
+      type: task
+      bizdoc: '/pozzzo/bz.hospedagem.yaml'
+      action: checkout
+  - description: Não
+    steps:
+    - description: Regularizar a situação para então fazer check-out
+      role: Hotel
+      type: Loop Task
+pools:
+- role: Hotel
+- role: Cliente
+organogram:
+  type: unit
+  description: Gerência de hospedagem
+KPI:
+  - tempo total de check-out

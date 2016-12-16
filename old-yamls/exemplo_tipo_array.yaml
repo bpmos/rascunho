@@ -1,0 +1,16 @@
+datatype:
+  base: complex
+complex:
+  telefones:
+    caption:
+      pt_br: Telefones
+      en: Phones
+    type: /h5/transforma/yaml/bz/type_string[0..5]
+
+tests:
+- value: | !json
+    {"telefones": ["212"]}
+  required: true
+  assert:
+  - value.telefones.length == 1
+  - value.telefones[0].value == '212'

@@ -1,0 +1,77 @@
+datatype:
+  base: string
+a: 1
+b: 5
+validate: | !js
+  var y;
+  if (!value && required)
+    throw "Campo obrigatório";
+
+switch: | !js
+  switch(a){
+     case 1:
+       um();
+       break;
+     case 2:
+       dois();
+       break;
+     default:
+       outro();
+       break;
+  }
+
+if 1: | !js
+  var x=1;
+  if (x==2)
+    return 7;
+
+if 2: | !js
+  var x=1;
+  if (x==2)
+    return 7;
+  else
+    return 8
+
+if 3: | !js
+  var y = "a"
+  if(y == "b")
+    throw "valor incorreto";
+  else if(y == "c")
+    y = "a";
+  else
+     return y
+
+css 1: | !css
+  .test{
+    width: 20px;
+    height: 20%;
+  }
+  #teste{
+    margin-top: 36px;
+    margin-left: 95px;
+    z-index: 1;
+  }
+
+cssAndjs:
+  js: | !js
+    var y = "a"
+    if(y == "b")
+      throw "valor incorreto";
+    else if(y == "c")
+      y = "a";
+    else
+     return y
+  css: | !css
+    .tests{
+      width: 2px
+    }
+    #testes{
+      overflow: hide;
+      color: red;
+      position: relative;
+      width: 100%;
+      height: 100%
+    }
+    body{
+      text-alingh: center;
+    }

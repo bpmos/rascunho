@@ -1,0 +1,31 @@
+process:
+  name: Verificação de crédito interno
+  description: Verifica se o cliente possui crédito na empresa
+  value: Financeiro
+activities:
+- description: Receber requisição
+  role: Responsável administrativo
+  type: task
+- description: Confirmar informações do cliente
+  role: Responsável administrativo
+  type: task
+- description: Verificar se a pendencias ou créditos
+  role: Responsável administrativo
+  type: task
+- description: Verificar lista negra
+  role: Responsável administrativo
+  type: task
+- description: Verificar situação do nome do cliente
+  role: Responsável administrativo
+  type: task
+- description: Reunir informações coletadas
+  role: Responsável administrativo
+  type: task
+- description: Responder requisição
+  role: Responsável administrativo
+  type: task
+pools:
+- role: Responsável administrativo
+organogram:
+  type: unit
+  description: Administrativo

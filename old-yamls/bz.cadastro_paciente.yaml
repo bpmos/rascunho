@@ -1,0 +1,41 @@
+bizdoc:
+  description: Cadastro de Paciente
+  type: complex
+  complex:
+    nome:
+        type: ../pkg/hfw/type.string
+        required: true
+        caption:
+            pt-br: Nome
+    data_de_nasc:
+        type: ../pkg/hfw/type.data
+        required: true
+        caption:
+            pt-br: Data de Nascimento
+    sexo:
+        type: ../pkg/hfw/type.string
+        required: true
+        caption:
+            pt-br: Sexo
+    endereço:
+        type: ../pkg/hfw/type.endereco
+        required: true
+        caption:
+            pt-br: Endereço
+    telefone:
+        type: ../pkg/hfw/type.telefone
+        required: true
+        caption:
+            pt-br: Telefone
+states:
+  - cadastrado
+actions:
+  cadastra(nome, data_nasc, sexo, endereco, telefone) // -> cadastrado
+  {
+    bizdoc.nome = nome;
+    bizdoc.data_nasc = data_nasc;
+    bizdoc.sexo = sexo;
+    bizdoc.endereco = endereco;
+    bizdoc.telefone = telefone;
+    bizdoc.status = "cadastrado";
+  }

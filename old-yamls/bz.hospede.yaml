@@ -1,0 +1,37 @@
+Hospede:
+  description: Cliente
+  type: complex
+  complex:
+      nome:
+        type: /pkg/hfw/type.string
+        required: true
+        min: 1
+        caption:
+          pt_br: Nome
+          en: Name
+      telefone:
+        type: /pkg/hfw/type.number
+        required: true
+        min: 1
+        caption:
+          pt_br: Telefone de contato
+          en: Phone number
+      cpf:
+        type: /pkg/hfw/type.number
+        required: true
+        min: 1
+        caption:
+          pt_br: CPF
+          en: id
+      endereco:
+        type: /pkg/hfw/type.string
+        required: true
+        min: 1
+        caption:
+          pt-br: Endereço
+          en: Address
+      financeiro:
+        caption:
+          pt-br: Pagamentos
+          en: Payments
+        arrayOf: '/pozzo/bz.hospede.yaml#financeiro'

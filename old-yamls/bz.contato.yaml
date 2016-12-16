@@ -1,0 +1,73 @@
+bizdoc:
+  description:
+    pt_br: dados do contato de possivel cliente
+  type: '#contato'
+
+
+contato:
+  description:
+    pt_br: informacoes pessoais do contato entrevistado
+  type: complex
+  complex:
+    contato:
+        type: /telemarketing/type.pessoa
+        caption:
+            pt_br: contato
+        required: true
+    conhecimento:
+        required: true
+        caption:
+            pt_br: conhecimentos
+        type: complex
+        complex:
+          grau_de_escolaridade:
+              required: true
+              caption:
+                  pt_br: grau de escolaridade
+              type: type.string
+          conhecimento_em_informatica:
+              re1quired: true
+              caption:
+                  pt_br: conhecimentos em informatica
+              type: type.boolean
+          cursos:
+              required: true
+              caption:
+                  pt_br: cursos de informatica
+              type: type.boolean
+    faria_algum_curso:
+        required: true
+        caption:
+            pt_br: faria algum curso de informatica
+        type: type.boolean
+    qual_curso:
+        caption:
+            pt_br: qual curso faria
+        arrayOf: type.string
+    observacao:
+        caption:
+            pt_br: observacao
+        type: type.string
+    cliente_indicado:
+        type: /telemarketing/type.pessoa
+        caption:
+            pt_br: contato indicado
+        required: true
+    cursos_ofertados:
+        caption:
+            pt_br: cursos ofertados
+        required: true
+        min: 1
+        type: /telemarketing/bz.cursos
+    data_ultima_ligacao:
+        caption:
+            pt_br: data da ultima ligacao
+        type: /telemarketing/type.data_e_hora
+    ligacao_agendada:
+        caption:
+            pt_br: ligacao agendada
+        type: /telemarketing/type.data_e_hora
+    tipo_de_reacao:
+        caption:
+            pt_br: motivo de rejeicao
+        type: /telemarketing/type.motivos_rejeicao

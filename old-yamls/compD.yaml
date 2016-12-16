@@ -1,0 +1,4 @@
+package: /h5/transforma/yaml/pkg/compD
+
+requires:
+- /h5/transforma/yaml/pkg/compE

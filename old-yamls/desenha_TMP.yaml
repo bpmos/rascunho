@@ -1,0 +1,70 @@
+process:
+  name: Desenha
+  description: Processo de desenhar
+  value: Desenhar
+activities:
+- description: Abre aplicação Desenha
+  role: Desenhista
+  type: task
+- description: Mostra ambiente incial
+  role: Desenha
+  type: task
+  actions:
+  - bizdoc: ./desenha/bz.listaDeDesenhos
+    action: mostraLista
+- description: Novo desenho ou existente?
+  role: Desenhista
+  type: fork
+  branches:
+  - description: Novo desenho
+    steps:
+    - goto: Abre Ambiente de Edição
+  - description: Desenho existente
+    steps:
+      - description: Selecionar arquivo
+        role: Desenhista
+        type: task
+      - description: Editar, Apagar ou Arquivar?
+        role: Desenhista
+        type: fork
+        branches:
+        - description: Editar
+          steps:
+          - goto: Abre Ambiente de Edição
+        - description: Apagar
+          steps:
+          - description: Apagado
+            role: Desenha
+            type: task
+        - description: Arquivar
+          steps:
+          - description: Arquivado
+            role: Desenha
+            type: task
+- description: Abre Ambiente de Edição
+  role: Desenhista
+  type: task
+- description: Seleciona Tipo de Desenho
+  role: Desenhista
+  type: task
+- description: Desenhando
+  role: Desenhista
+  type: task
+- description: Salvamento Automatico
+  role: Desenha
+  type: task
+- description: Arquivar?
+  role: Desenhista
+  type: fork
+  branches:
+- description: Sim
+  steps:
+  - description: Arquivado
+    role: Desenha
+    type: task
+- description: Não
+  steps:
+  - description: Salvo
+    role: Desenha
+    type: task
+

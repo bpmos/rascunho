@@ -1,0 +1,31 @@
+pagelet:
+  start: titulo
+
+views:
+  titulo:
+  - say app.title
+  - entry app.session.language with icons
+
+scope:
+  app: h5.hfw.Application.current_application
+
+#html events:
+#
+#  mudarLinguagem:
+#    h5.ui.session.language = event.target.value;
+#    dispatch(
+
+ #scope:
+#   language
+
+#
+#tests:
+#- Teste inicial: |
+#    "assert";
+#    h5.ui.session.language = 'en';
+#
+#- Mudar idioma para ingles: |
+#    $('select')[0].value = 'en';
+#    "wait for events";
+#    "assert";
+#    h5.ui.session.language = 'en';

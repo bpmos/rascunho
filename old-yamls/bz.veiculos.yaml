@@ -1,0 +1,40 @@
+Bizdoc:
+  description: Dados do veículos da empresa
+  type: arrayOf
+  arrayOf:
+    nome:
+      type: /pkg/hfw/type.string
+      required: true
+      min: 3
+      caption:
+        pt-br: Nome
+    tipo:
+      type: /pkg/hfw//type.enum
+      required: true
+      min: 1
+      caption:
+        pt-br: Tipo
+    ano_fabricacao:
+      type: /pkg/hfw/type.string
+      required: true
+      min: 4
+      caption:
+        pt-br: Ano fabricação
+    modelo:
+      type: /pkg/hfw/type.enum
+      required: true
+      min: 1
+      caption:
+        pt_br: Modelo
+    fabricante:
+      type: /pkg/hfw/type.enum
+      required: true
+      min: 1
+      caption:
+        pt_br: fabricante
+    observacoes:
+      type: /pkg/hfw//type.string
+      required: false
+      min: 10
+      caption:
+        pt-br: Observações

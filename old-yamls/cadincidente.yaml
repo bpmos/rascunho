@@ -1,0 +1,76 @@
+process:
+  title:
+    pt-br: Cadastro de Incidentes
+  volatile: true
+  chain value activity: Suporte
+
+scope:
+  bz_inc:
+    caption:
+      pt_br: 'Incidente'
+    type: /h5/transforma/yaml/bz/Incidente1
+  flag_resolver_agora:
+    caption:
+      pt_br: 'Resolver agora'
+    type: /h5/transforma/yaml/bz/type_boolean
+    value: false
+
+activities:
+- name: cadastro
+  caption:
+    pt-br: Cadastro de Incidentes
+  roles:
+    - programacao
+    - suporte
+  steps:
+  - name: preenche_dados
+    caption: Usuário preenche dados do novo incidente:
+    view: view_cadastro
+
+  - Sistema grava o novo incidente:
+     code: |
+       bz_inc.criaIncidente ## o trasnforma deve pegar os parametros automaticamente
+  - Se flag_resolver_agora:
+    - Então:
+      - subprocess: trabincidente
+        send:
+        incidente: bz_inc
+        receive:
+        success:
+
+views:
+- view_cadastro:
+   widgets:
+   -
+     - entry bz_inc.id
+     - entry bz_inc.produto
+   - entry bz_inc.titulo
+   - entry bz_inc.anotacoes
+   - say bz_inc.state
+  actions:
+  - name: gravar_e_trabalhar_no_incidente
+    title: Gravar e começar a resolver
+    icon:
+    can_execute:  |
+      return true;
+    execute:
+      scope.flag_resolver_agora.value=true
+      view.(VERIFICAR METÓDO EM BPM BPEL FOR PEOPLE - ws4people) # processo vai para o proximo passo
+
+  - name: cancelar_execucao_processo
+    title: Cancelar
+    icon:
+    can_execute:  |
+      return true;
+    execute:
+      processo.cancel();
+
+  - name: gravar_incidente
+    title: Gravar
+    icon:
+    can_execute:  |
+      return true;
+    execute:
+      scope.flag_resolver_agora.value=false
+      view.(VERIFICAR METÓDO EM BPM BPEL FOR PEOPLE - ws4people) # processo vai para o proximo passo
+

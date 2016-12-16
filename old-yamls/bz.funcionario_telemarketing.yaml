@@ -1,0 +1,58 @@
+bizdoc:
+    description:
+        pt_br: funcionario que tem acesso ao telemarketing
+    type: complex
+    complex:
+        funcionario:
+            caption:
+                pt_br: funcionario
+            min: 1
+            type: /telemarketing/type.pessoa
+        senha:
+            caption:
+                pt_br: senha de acesso
+            required: true
+            type: type.password
+        estatistica:
+            caption:
+                pt_br: estatistica
+            required: true
+            type: complex
+            complex:
+                data_da_estatistica:
+                    caption:
+                        pt_br: data da estatistica
+                    required: true
+                    type: type.date
+                historico_de_ligacoes:
+                    caption:
+                        pt_br: historico de ligacoes
+                    arrayOf: complex
+                    complex:
+                        data:
+                            caption:
+                                pt_br: data da ligacao
+                            min: 1
+                            type: type.date
+                        reacao_cliente:
+                            caption:
+                                pt_br: motivo de rejeicao
+                            type: /telemarketing/type.motivos_rejeicao
+                meta_mensal:
+                    caption:
+                        pt_br: meta mensal
+                    required: true
+                    type: complex
+                    complex:
+                        meta:
+                            caption:
+                                pt_br: meta
+                            required: true
+                            min: 0.01
+                            type: type.number
+                        meta_alcancada:
+                            caption:
+                                pt_br: meta alcancada
+                            required: true
+                            min: 0
+                            type: type.number

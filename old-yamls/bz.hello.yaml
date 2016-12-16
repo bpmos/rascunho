@@ -1,0 +1,12 @@
+bizdoc:
+  description: Cadastro de Paciente
+  type: complex
+  complex:
+    nome:
+      type: www/src/pkg/hfw/type.string
+      min: 5
+      max: 10
+      caption:
+        pt_br: Nome
+        es: Nombre
+        en: Name

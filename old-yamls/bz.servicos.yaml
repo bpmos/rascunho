@@ -1,0 +1,28 @@
+Servicos:
+  description: Serviços oferecidos pelo estabelecimento
+  type: complex
+  complex:
+    tipo:
+      type: /pkg/hfw/type.string
+      required: true
+      min: 5
+      caption:
+        pt_br: Tipo
+    valor:
+      type: /pkg/hfw/type.string
+      required: true
+      min: 0.01
+      caption:
+        pt_br: Preço
+    descricao:
+      type: /pkg/hfw//type.string
+      required: false
+      min: 10
+      caption:
+        pt-br: Descriçao
+    garantia:
+      type: /pkg/hfw//type.string
+      required: true
+      min: 10
+      caption:
+        pt-br: Garantia

@@ -1,0 +1,65 @@
+process:
+  name: Compra
+  description: Efetiva a compra de materiais, produtos etc...
+  value: Administrativo
+activities:
+- description: Recebe solicitação de compra
+  role: Responsável administrativo
+  type: task
+- description: Contacta fornecedores
+  role: Responsável administrativo
+  type: task
+- description: Informa disponibilidade e preços
+  role: Fornecedores
+  type: task
+- description: Disponivel?
+  role: Responsável administrativo
+  type: fork
+  branches:
+  - description: Sim
+    steps:
+    - description: Preço acessivel?
+    role: Responsável administrativo
+    type: fork
+    branches:
+    - description: Sim
+      steps:
+      goto: Confirma compra
+    - description: Não
+      steps:
+      - description: Requisita a Direção aprovação pra compra
+        role: Responsável administrativo
+        type: task
+      - description: Aprovou?
+        role: Diretor
+        type: fork
+        branches:
+        - description: Sim
+          steps:
+          goto: Confirma compra
+        - descritption: Não
+          steps:
+          - description: Registra motivo
+            role: Responsável administrativo
+            type: task
+  - description: Não
+    steps:
+    - description: Informa a direção
+      role: Responsável administrativo
+      type: task
+    - description: Passa instruções
+      role: Diretor
+      type: task
+    - description: Registra falta de produto
+      role: Responsável administrativo
+      type: task
+- description: Confirma compra
+  role: Responsável administrativo
+  type: task
+pools:
+- role: Fornecedores
+- role: Responsável administrativo
+- role: Diretor
+organogram:
+  type: unit
+  description: Administrativo

@@ -1,0 +1,27 @@
+datatype:
+  base: boolean
+properties:
+  required:
+    type: boolean
+    required: true
+validate: | !js
+  if (required && [true, false].indexOf(value)==-1)
+    throw "Campo obrigatório";
+  else if ([true, false].indexOf(value)==-1)
+    throw "Os valores permitidos são somente true ou false";
+init: | !js
+  return {
+    typedef: typedef,
+    value: value
+  };
+tests:
+- value: true
+  required: true
+- value: false
+  required: true
+- value: "x"
+  required: false
+  throws: "exemplo: Os valores permitidos são somente true ou false"
+- value: undefined
+  required: true
+  throws: "exemplo: Campo obrigatório"

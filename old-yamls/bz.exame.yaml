@@ -1,0 +1,25 @@
+bizdoc:
+  description: Exames realizados no atalaia
+  type: complex
+  complex:
+    nome_exame:
+      type: ../pkg/hfw/type.string
+      required: true
+      caption:
+        pt-br: Nome do Exame
+    prazo_de_entrega:
+      type: ../pkg/hfw/type.date
+      required: true
+      caption:
+        pt-br: Prazo de Entrega
+    material_utilizado:
+      required: true
+      caption:
+        pt-br: Material Utilizado
+      type: complex
+      complex:
+        nome:
+          type: ../pkg/hfw/type.string
+          required: true
+          caption:
+            pt-br: Nome Exame

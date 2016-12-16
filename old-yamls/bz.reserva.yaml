@@ -1,0 +1,50 @@
+Reserva:
+  description: Registra a reserva de acomodaçao ou/e serviço feita pelo cliente
+  type: complex
+  complex:
+    id_reserva:
+      type: /pkg/hfw/type.float
+      required: true
+      min: 1
+      caption:
+        pt-br: Identificação da reserva
+        en: Booking identification
+    dados_cliente:
+      caption:
+        pt-br: Informaçoes
+        en: Informations
+      typeOfComplex: '/pozzo/bz.hospede.yaml#Hospede'
+    data:
+      type: /pkg/hfw/type.date
+      required: true
+      min: 0
+      caption:
+        pt-br: Data
+        en: Date
+    acomodacao:
+      caption:
+        pt-br: Acomodacao
+        en: Accommodations
+      arrayOfComplex: '/pozzo/bz.estabelecimento.yaml#Acomodacoes'
+    dados_hotel:
+      caption:
+        pt-br: Serviço
+        en: Service
+      arrayOfComplex: '/pozzo/bz.estabelecimento.yaml'
+
+states:
+  - emitido
+  - encerrado
+actions:
+  emitir(doc) // -> emitido
+  {
+    bizdoc.doc = new ();
+  }
+  encerrar() // emitido -> encerrado
+  {
+    bizdoc.doc.end();
+  }
+  end()
+  {
+    #todo
+  }

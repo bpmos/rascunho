@@ -1,0 +1,23 @@
+process:
+  name: Depósito
+  description: Processo pra controle de mercadorias
+  value: Estoque
+activities:
+- descritption: Recebe caixas com produtos
+  role: Responsável administrativo
+  type: task
+- descritption: Conferi produtos
+  role: Responsável administrativo
+  type: task
+- descritption: Registra entrada no livro
+  role: Responsável administrativo
+  type: task
+- descritption: Guarda produtos
+  role: Responsável administrativo
+  type: task
+pools:
+- role: Responsável administrativo
+organogram:
+  type: unit
+  drescription: Administrativo
+

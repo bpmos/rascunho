@@ -1,0 +1,165 @@
+bizdoc:
+  description:
+    pt_BR: Incidente simples
+    en: Simple Issue
+  connection: majinboo
+state:
+  id:
+    type: /h5/transforma/yaml/bz/type_integer
+    required: true
+    min: 1
+    caption:
+      pt_br: 'Código'
+      en: 'ID'
+  titulo:
+    type: /h5/transforma/yaml/bz/type_string
+    required: true
+    min: 10
+    max: 200
+    caption:
+      pt_br: 'Título'
+      en: 'title'
+  produto:
+    type: /h5/transforma/yaml/bz/type_string
+    required: false
+    min: 3
+    max: 8
+    caption:
+      pt_br: 'Produto'
+      en: 'Product'
+  anotacoes:
+    type: /h5/transforma/yaml/bz/type_string
+    required: true
+    min: 10
+    max: 2000
+    caption:
+      pt_br: 'Anotações'
+      en: 'notes'
+  estado:
+    caption:
+      pt_br: Estado
+      en: State
+    states:
+      aberto:
+        value: 10
+        kind: new
+      reaberto:
+        value: 20
+        kind: draft
+      resolvendo:
+        value: 30
+        kind: archive
+      resolvido:
+        value: 40
+        kind: archive
+      duplicado:
+        value: 50
+        kind: archive
+      invalido:
+        value: 60
+        kind: archive
+actions:
+  criarNovoIncidente:
+    caption:
+      pt_br: Novo incidente
+      en: New issue
+    params:
+      id: new.id
+      titulo: new.titulo
+      anotacoes: new.anotacoes
+    to: aberto
+  comecarResolver:
+    caption:
+      pt_br: Começar a resolver
+      en: Start resolve
+    from:
+    - aberto
+    - reaberto
+    to: resolvendo
+  marcarComoResolvido:
+    caption:
+      pt_br: Marcar como resolvido
+      en: mark resolved
+    from: resolvendo
+    to: resolvido
+    params:
+      anotacoes:
+        type: /h5/transforma/yaml/bz/type_string
+    code:
+      "new.anotacoes.value = new.anotacoes.value + '\n' + anotacoes;"
+  marcarComoInvalido:
+    caption:
+      pt_br: Marcar como inválido
+      en: Mark invalid
+    params:
+      anotacoes:
+        type: /h5/transforma/yaml/bz/type_string
+    from:
+    - aberto
+    - reaberto
+    to: invalido
+    code:
+      "new.anotacoes.value = new.anotacoes.value + '\n' + anotacoes;"
+  marcarComoDuplicado:
+    caption:
+      pt_br: Marcar como duplicado
+      en: Mark duplicated
+    params:
+      outroIncidente:
+        type: /h5/transforma/yaml/bz/incidente1
+      anotacoes:
+        type: /h5/transforma/yaml/bz/type_string
+    from:
+    - aberto
+    - reaberto
+    to: duplicado
+    code:
+      "new.anotacoes.value = new.anotacoes.value + 'outro incidente: '+outroIncidente.id.value+' '+  anotacoes;"
+  reabrir:
+    caption:
+      pt_br: Reabrir
+      en: Reopen
+    from:
+    - resolvido
+    - invalido
+    - duplicado
+    to: reaberto
+    params:
+     anotacoes:
+       type: /h5/transforma/yaml/bz/type_string
+    code:
+      "new.anotacoes.value = new.anotacoes.value + '\n' + anotacoes;"
+keys:
+- porCodigo:
+    caption:
+      pt_br: Por código
+      en: By issue id
+    fields:
+    - id
+    generation: false
+    mutable: false
+    regexp: /d+/g
+queries:
+  porTitulo:
+    caption:
+      pt_br: Por título
+      en: By issue title
+    regexp: /w+/g
+    where: titulo == value
+#  porBranch:
+#    caption:
+#      pt_br: Por branch
+#      en: By branch
+#    regexp: /(w{2,8})#(\d{1,10})/g
+#    where: produto == $1 and id == $2
+
+initial documec: 
+ -  id: 1
+    titulo: 
+
+scenary: 
+  - tarimba
+  
+initial documec: 
+ -  id: 1
+    titulo: 

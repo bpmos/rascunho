@@ -1,0 +1,60 @@
+process:
+  name: Pagamentos
+  description: Paga faturas, compras, impostos etc.
+  value: Administrativo
+activities:
+- description: Verificar tipo de pagamento
+  role: Responsável administrativo
+  type: task
+- description: Qual tipo?
+  role: Responsável administrativo
+  type: fork
+  branches:
+  - description: Fornecedores
+    steps:
+    goto: Verificar informações do pagamento
+  - description: Impostos e trobutos
+    steps:
+    goto: Verificar informações do pagamento
+  - description: Administrativo interno
+    steps:
+    goto: Verificar informações do pagamento
+- description: Verificar informações do pagamento
+  role: Responsável administrativo
+  type: task
+- description: Necessita de autorização da diretoria?
+  role: Responsável administrativo
+  type: fork
+  branches:
+  - description: Sim
+    steps:
+    - descrition: Avaliar e responder
+      role: Diretor
+      type: task
+    - description: Autorizou?
+      role: Diretor
+      type: fork
+      branches:
+      - description: Sim
+        steps:
+        goto: Executa e registra pagamento(s)
+      - description: Não
+        steps:
+        - description: Registra motivo(s)
+          role: Responsável administrativo
+          type: task
+        - description: Reagendar
+          role: Responsável administrativo
+          type: task
+  - description: Não
+    steps:
+    goto: Executa e registra pagamento(s)
+- description: Executa e registra pagamento(s)
+  role: Responsável administrativo
+  type: task
+pools:
+- role: Responsável administrativo
+- role: Diretor
+organogram:
+  type: unit
+  description: Administrativo

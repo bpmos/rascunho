@@ -1,0 +1,40 @@
+Bizdoc:
+  description: Tipos de Filtros
+  type: complex
+  complex:
+    nome:
+      type: /pkg/hfw//type.string
+      required: true
+      min: 5
+      caption:
+        pt-br: Nome
+    modelo:
+      type: /pkg/hfw/type.enum
+      required: true
+      min: 1
+      caption:
+        pt_br: Modelo
+    valor:
+      type: /pkg/hfw/type.string
+      required: true
+      min: 0.01
+      caption:
+        pt_br: Preço
+    fabricante:
+      type: /pkg/hfw/type.enum
+      required: true
+      min: 1
+      caption:
+        pt_br: fabricante
+    descricao:
+      type: /pkg/hfw//type.string
+      required: false
+      min: 10
+      caption:
+        pt-br: Descriçao
+    garantia:
+      type: /pkg/hfw//type.string
+      required: false
+      min: 10
+      caption:
+        pt-br: Garantia

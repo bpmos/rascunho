@@ -1,0 +1,76 @@
+organization:
+    description: Hotel Califórnia
+    vision: Nosso estabelecimento visa a melhor qualidade na estadia, junto ao melhor atendimento ao hóspede
+    mission: Nosso objetivo é nos tornarmos o melhor hotel do mundo, em quesito de hospedagem e agilidade nos procedimentos
+    values:
+        - Liberdade para que nossos hópedes se sintam em casa, e usufram de todo o hotel
+        - Igualdade entre nossos hóspedes quanto ao tratamento pessoal com eles
+        - Fraternidade entre empresa e hóspedes, para que nos tornemos família
+    internal strengths:
+        - Temos os melhores colchões do mercado junto ao luxo da mobília
+        - Serviço de quarto capacitado
+        - A vista mais bela do Hawaii está na nossa sacada
+    internal weaknesses:
+        - Por ser alto nível, nossa clientela é bem selecionada
+    external opportunities:
+        - Hawaii é umma ilha visada para o turismo pelo mundo todo
+        - Há poucos hotéis de luxo por aqui
+    external threats:
+        - Vulcões em plena atividade
+        - E a constante chuva ácida
+        - Muitas pessoas que vão ao Hawaii preferem curtir a natureza, preferem acampar à se hospedar num hotel de alto nivel
+    products:
+        - Hospedagem de luxo:
+            relative market share: High
+            market growth rate: Low
+        - Serviço de quarto online:
+            relative market share: High
+            market growth rate: High
+        - Massagem Hawaiana:
+            relative market share: low
+            market growth rate: Low
+        - Área de lazer pessoal:
+            relative market share: High
+            market growth rate: High
+    primary activities:
+        - Reserva
+        - Check-in
+        - Hospedagem
+        - Lavanderia
+        - Restaurante
+        - Check-out
+        # pensar nisso
+    support activities:
+        - Limpeza
+        - Serviço de quarto
+        - Compras
+    management activities:
+        - Direção geral
+        - TI
+        - Gerencia de hospedagem
+    organogram:
+      - description: Diretoria geral
+        type: Departament
+        inner:
+        - description: Gerência de Hospedagem
+          type: Departament
+          inner:
+          - description: Recepção
+            type: Departament
+          - description: Limpeza
+            type: Departament
+          - description: Lavanderia
+            type: Departament
+          - description: Maitre
+            type: Departament
+        - description: Gerência Administrativa
+          type: Departament
+          inner:
+          - description: Gerência financeira
+            type: Departament
+          - description: Gerência de RH
+            type: Departament
+          - description: Gerência de marketing
+            type: Departament
+          - description: Gerência de eventos
+            type: Departament

@@ -1,0 +1,54 @@
+bizdoc:
+    description: Registra pedido para coleta
+    type: complex
+    complex:
+        paciente:
+            type: /atalaia/bz.cadastro_paciente
+            required: true
+            caption:
+                pt-br: Cliente
+        data_emissao:
+            type: ../pkg/hfw/type.date_e_time
+            required: true
+            caption:
+                pt-br: Data Emissão
+        data_inicio_atendimento:
+            type: ../pkg/hfw/type.date_e_time
+            caption:
+                pt-br: Data Inicio Atendimento
+        data_encerramento_atendimento:
+            type: ../pkg/hfw/type.date_e_time
+            caption:
+                pt-br: Data Encerramento Atendimento
+        exames:
+            arrayOf: /atalaia/exame
+            required: true
+            caption:
+                pt-br: Exames
+        atendente:
+            type: ../pkg/hfw/type.string
+            required: true
+            caption:
+                pt-br: Atendente
+states:
+  - aguardando_atendimento
+  - atendendo
+  - encerrado
+actions:
+  gera_pedido(paciente, exames) // -> aguardando_atendimento
+  {
+    bizdoc.paciente = paciente;
+    bizdoc.data_emissao = new Date();
+    bizdoc.exames = exames;
+    bizdoc.atendente = pega_atendente_atual();
+    bizdoc.status = "pago";
+  }
+  chama_paciente() // aguardando_atendimento -> atendendo
+  {
+    bizdoc.data_inicio_atendimento = new Date();
+    bizdoc.status = "atendendo";
+  }
+  encerra_coleta(){ // atendendo -> encerrado
+    bizdoc.data_encerramento_atendimento = new Date();
+    bizdoc.status = "encerrado";
+  }

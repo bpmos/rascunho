@@ -1,0 +1,40 @@
+process:
+  name: Financiamento
+  description: Processo que defini etapas para realização de um financiamento
+  value: Administrativo
+activities:
+- description: Receber pedido
+  role: Responsável administrativo
+  type: task
+  actions:
+  - bizdoc: ./maisPurificadores/bz.pedido
+    action: emitePedido
+  bizdoc: /maisPurificadores/bz.pedido
+- description: Confirmar autenticidade das informações do cliente
+  role: Responsável administrativo
+  type: task
+- description: Abrir processo de pedido de financiamento
+  role: Responsável administrativo
+  type: task
+- description: Enviar pedido para avaliação
+  role: Responsável administrativo
+  type: task
+- description: Verificar Autenticidade das  informações recebidas
+  role: Banco
+  type: task
+- description: Processo administrativo interno
+  role: Banco
+  type: task
+- description: Recebe resposta do banco
+  role: Responsável administrativo
+  type: task
+- description: Informar cliente
+  role: Responsável administrativo
+  type: task
+pools:
+- role: Responsável administrativo
+- role: Banco
+organogram:
+  type: unit
+  description: Administrativo
+

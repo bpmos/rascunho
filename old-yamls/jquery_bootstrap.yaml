@@ -1,0 +1,74 @@
+theme: jquery_boostrap    # Exemplo ainda nao implementado
+
+third:
+- jquery.js
+- bootstrap.css
+
+initialization: | !javascript
+  h5.ui.createElement = function (tag, attrs, children) {
+                var e = document.createElement(tag);
+                if (attrs)
+                    for (var attr in attrs) {
+                        if (attr == 'textContent')
+                            e.textContent = attrs[attr];
+                        else if (attr == 'class')
+                            attrs[attr].trim().split(' ').forEach(function (cn) {
+                                cn = cn.trim();
+                                if (cn != '')
+                                    e.classList.add(cn);
+                            });
+                        else {
+                            var v = attrs[attr];
+                            if (typeof v === 'function')
+                                e.addEventListener(attr, v);
+                            else if (typeof v === 'boolean') {
+                                if (v)
+                                    e.setAttribute(attr, v);
+                            } else
+                                e.setAttribute(attr, v);
+                        }
+                    }
+                if (children)
+                    for (var i = 0; i < children.length; i++) {
+                        var c = children[i];
+                        if (c !== undefined) {
+                            if (Array.isArray(c))
+                                c.forEach(function (ci) {
+                                    e.appendChild(ci);
+                                });
+                            else {
+                                if (typeof c === 'string')
+                                    c = hb.createElement('span', {
+                                        textContent: c
+                                    });
+                                e.appendChild(c);
+                            }
+                        }
+                    }
+                return e;
+            };
+
+/h5/type/string:
+  render: |
+    <label> {caption.i18n}
+    <input type='text'  value={value} isLabelFloating={true} class={classes} />
+    </label>
+  css: |
+    .error { color: red }
+
+/h5/type/enum:
+  render:
+  - without flags: |
+      <label> {caption.i18n}
+        <select value={} onChange={mudarLinguagem}>
+        {states.map( (state) => <option value="state.value"> {state.caption.i18n} </option>)}
+        </select>
+    </label>
+    css: |
+      .error { color: red }
+  - with icon-only: |
+      <select value={} onChange={mudarLinguagem} title={caption.i18n}>
+        {states.map( (state) => <option value="state.value"> {state.caption.i18n }</option>)}
+      </select>
+    css: |
+      .error { color: red }

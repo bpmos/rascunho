@@ -1,0 +1,69 @@
+theme: temafeio
+
+thirdparty:
+- react.js
+
+initialization: | !js
+  h5.ui.createElement = React.createElement;
+
+css: | !css
+  .apptitle {width: 100%; height: 100px;}
+  .appmenu {width: 100%; height: 100px; color: yellow; } .appcontent { width: 100% width: 100%; height: 400px;color: blue;}
+
+datatypes:
+  /h5/type/string:
+    say: | !js
+    entry: | !js
+      <label> {caption.i18n}
+        <input type='text' value={value} class={classes} />
+      </label>
+    css: | !css
+      .error { color: red }
+
+  /h5/type/enum:
+    render:
+    - without flags: | !js
+        var state;
+        return <label> {caption.i18n}
+          <select value={value} onChange={mudarLinguagem}>
+          {states.map( (state) => <option value="state.value"> {state.caption.i18n} </option>)}
+          </select>
+        </label>
+      css: | !css
+        .error { color: green }
+    - with icon-only: | !js
+        var state;
+        return <select value={value} onChange={mudarLinguagem} title={caption.i18n}>
+          {states.map( (state) => <option value="state.value"> {state.caption.i18n }</option>)}
+        </select>
+      css: | !css
+        .error { color: blue }
+
+#html_events:
+# function
+# element.onevent=function
+#tests:
+#  @ desktop: |
+#    .apptitle
+#      above: content 0px
+#
+#
+#
+#
+#pagelets:
+#  /h5/apptitle:
+#    render:
+#    - content:
+#      <div class='apptitle'>{content}</div>
+#
+#    - display app.title:
+#      <span class='title'>{content}</div>
+#
+#    - entry h5.ui.session.language with icons:
+#      <span class='language'>{content}</div>
+#
+#    css:
+#      .apptitle {}
+#      .apptitle .title {}
+#      .apptitle .language {}
+#    test:
