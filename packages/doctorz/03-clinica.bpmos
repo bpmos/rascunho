@@ -1,0 +1,532 @@
+// Números: Sempre usar o ponto como decimal e espaço no separador de milhares, o formatador de código deverá colocar os espaços automaticamente
+
+bizdoc:
+  description: Clínica
+  connection: majinboo
+  language: pt-br
+schema: //state
+  id:
+    type: Number
+    min: 1
+    max: 10 000 000
+    caption: Id
+  logomarca:
+    type: String
+    optional: true
+    min: 10
+    max: 10 000 000
+    caption: Logomarca
+  nome:
+    type: String
+    max: 200
+    caption: Nome
+  contato:
+    type: String
+    caption: Contato
+    regexp: /^\([1-9]{2}\) [2-9][0-9]{3,4}\-[0-9]{4}$/g
+  email:
+    type: String
+    caption: E-mail
+    regexp: /^[a-zA-Z0-9][a-zA-Z0-9\._-]+@([a-zA-Z0-9\._-]+\.)[a-zA-Z-0-9]{2,3}/gm
+  celular:
+    type: String
+    caption: Celular
+    regexp: /^\([1-9]{2}\) [2-9][0-9]{3,4}\-[0-9]{4}$/g
+  telcom:
+    type: String
+    caption: Telefone Comercial
+    regexp: /^\([1-9]{2}\) [2-9][0-9]{3,4}\-[0-9]{4}$/g
+  defPacienteOutrosCampos:
+    type: Object
+    blackbox: true
+    optional: true
+  configReports:
+    type: Object
+    defRascunhoHeader:
+      type: Object
+      blackbox: true
+  layoutImpressao:
+    type: [Object]
+    optional: true
+    nome:
+      type: String
+    pageSize:
+      type: String
+    pageOrientation:
+      type: String
+    blobs:
+      type: [String]
+      optional: true
+    pageMargins:
+      type: [Number]
+    fields:
+      type: [Object]
+      optional: true
+      blackbox: true
+  dataExpiracao:
+    type: Date
+    caption: Data de Expiração
+    optional: true
+  endereco:
+    type: Object
+    optional: true
+    rua:
+      type: String
+      caption: Rua
+      min: 3
+      max: 200
+      optional: true
+    bairro:
+      type: String
+      caption: Bairro
+      min: 3
+      max: 100
+      optional: true
+    cidade:
+      type: String
+      caption: Cidade
+      min: 3
+      max: 100
+      optional: true
+    uf:
+      type: String
+      caption: UF
+      min: 2
+      max: 2
+      optional: true
+    cep:
+      type: String
+      caption: CEP
+      regexp: /^[0-9]{5}\-[0-9]{3}$/g
+      optional: true
+    complemento:
+      type: String
+      caption: Complemento
+      optional: true
+    numero:
+      type: String
+      caption: Número
+      min: 1
+      max: 10
+      optional: true
+  salas:
+    type: [Object]
+    caption: Salas
+    optional: true
+    nome:
+      type: String
+      caption: Sala
+    medicoId:
+      type: String
+      caption: Id do Médico
+  agendaConfig:
+    type: Object
+    bloqueiosAutomaticos:
+      type: [Number]
+      states:
+        FERIADOS_NACIONAIS: 1
+          caption: Feriados Nacionais
+        CARNAVAL_SEGUNDA: 2
+          caption: Segunda-feira de carnaval
+        CARNAVAL_TERCA: 3
+          caption: Terça-feira de carnaval
+        QUARTA_CINZAS_DIA: 4
+          caption: Quarta-feira de carnaval
+        QUARTA_CINZAS_MANHA: 5
+          caption: Manhã da quarta-feira de cinzas
+        FINADOS: 6
+          caption: Dia de finados
+    bloqueiosCustomizados:
+      type: [Object]
+      data:
+        type: Date
+      descricao:
+        type: String
+      periodo:
+        type: Number
+        states:
+          DIA_INTEIRO: 1
+            caption: Dia Inteiro
+          MATUTINO: 2
+            caption: Matutino
+          VESPERTINO: 3
+            caption: Vespertino
+  atendimentoConfig:
+    type: Object
+    exigirDocumentoNoCadastroDePaciente:
+      type: Boolean
+actions:
+  statusLicenca:
+    caption: Status da Licença
+    code: 
+    {
+      var self=this;
+      return {
+        ativa() {
+          return self.dataExpiracao >= h5moment(new Date()).startOf('day').toDate();
+        },
+        trial() {
+          var licencaDeUsoCompra = DoctorZ.query.licencaDeUsoCompraPorClinica(DoctorZ.state.idClinicaSelecionada, self._id).fetch();
+          return licencaDeUsoCompra.some(function (licenca) {
+            if(licenca.codigoPromocional == 'TRIAL' && licenca.dataCompetencia.getTime() > new Date().getTime())
+              return true;
+          });
+        },
+        emAtraso() {
+          var licencaDeUsoCompra = DoctorZ.query.licencaDeUsoCompraPorClinica(DoctorZ.state.idClinicaSelecionada, self._id).fetch();
+          return licencaDeUsoCompra.some(function (licenca) {
+            if(!licenca.dataPagamento && licenca.dataVencimento.getTime() < new Date().getTime())
+              return true;
+          });
+        },
+        expirando_10() {
+          var dif = (self.dataExpiracao.getTime() - new Date().getTime());
+          return (5*24*60*60*1000 < dif && dif < 10*24*60*60*1000);
+        },
+        expirando_5() {
+          var dif = (self.dataExpiracao.getTime() - new Date().getTime());
+          return (2*24*60*60*1000 < dif && dif < 5*24*60*60*1000);
+        },
+        expirando_2() {
+          var dif = (self.dataExpiracao.getTime() - new Date().getTime());
+          return (1*24*60*60*1000 < dif && dif < 2*24*60*60*1000);
+        },
+        expirando_amanha() {
+          var dif = (self.dataExpiracao.getTime() - new Date().getTime());
+          return (new Date().getTime() < self.dataExpiracao.getTime() && dif < 1*24*60*60*1000);
+        },
+        expirado() {
+          return self.dataExpiracao < h5moment(new Date()).startOf('day').toDate();
+        }
+      }
+    }
+  salaDoMedico:
+    caption: Sala do Médico
+    params:
+      medicoId: new.medicoId
+    code:
+    {
+      return (this.salas || []).filter((s) => s.medicoId == medicoId)[0];
+    }
+  bloqueiosNaAgendaDaClinica:
+    caption: Bloqueio na agenda da Clínica
+    params:
+      dataInicial: new.dataInicial
+      dataFinal: new.dataFinal
+    code:
+    {
+      var bloqueiosCustomizados = this.agendaConfig.bloqueiosCustomizados.reduce(function (r, c) {
+        if (c.data.getTime() >= dataInicial && c.data.getTime() <= dataFinal) {
+          r.push({
+            data: c.data,
+            descricao: c.descricao,
+            periodo: c.periodo,
+            customizado: true
+          });
+        }
+      }, []);
+      return this.listaBloqueiosAutomaticos(dataInicial, dataFinal)
+        .concat(bloqueiosCustomizados)
+        .sort(function (a, b) {
+          return a.data.getTime() - b.data.getTime();
+        }); 
+    }
+  listaBloqueiosAutomaticos:
+    caption: Lista bloqueios automáticos
+    params:
+      dataInicial: new.dataInicial
+      dataFinal: new.dataFinal
+    code:
+    {
+      var ano_inicial = dataInicial.getFullYear();
+      var ano_final = dataFinal.getFullYear();
+      var r = [];
+      for (var ano = ano_inicial; ano <= ano_final; ano++) {
+        var pascoa = DoctorZ.utils.calculaPascoa(ano);
+
+        if (this.agendaConfig.bloqueiosAutomaticos.indexOf(DoctorZ.enum.agendaBloqueio.FERIADOS_NACIONAIS) != -1) {
+          r.push({
+            data: new Date(ano, 0, 1),
+            descricao: 'Confraternização Universal',
+            periodo: DoctorZ.enum.agendaPeriodoBloqueio.DIA_INTEIRO
+          });
+          r.push({
+            data: new Date(ano, 3, 21),
+            descricao: 'Tiradentes',
+            periodo: DoctorZ.enum.agendaPeriodoBloqueio.DIA_INTEIRO
+          });
+          r.push({
+            data: new Date(ano, 4, 1),
+            descricao: 'Dia do Trabalhador',
+            periodo: DoctorZ.enum.agendaPeriodoBloqueio.DIA_INTEIRO
+          });
+          r.push({
+            data: new Date(ano, 8, 7),
+            descricao: 'Dia da Independência',
+            periodo: DoctorZ.enum.agendaPeriodoBloqueio.DIA_INTEIRO
+          });
+          r.push({
+            data: new Date(ano, 9, 12),
+            descricao: 'Nossa Senhora Aparecida',
+            periodo: DoctorZ.enum.agendaPeriodoBloqueio.DIA_INTEIRO
+          });
+          r.push({
+            data: new Date(ano, 10, 15),
+            descricao: 'Proclamação da republica',
+            periodo: DoctorZ.enum.agendaPeriodoBloqueio.DIA_INTEIRO
+          });
+          r.push({
+            data: new Date(ano, 11, 25),
+            descricao: 'Natal',
+            periodo: DoctorZ.enum.agendaPeriodoBloqueio.DIA_INTEIRO
+          });
+          r.push({
+            data: new Date(pascoa.getTime() - 2 * 24 * 60 * 60 * 1000),
+            descricao: 'Paixão de Cristo',
+            periodo: DoctorZ.enum.agendaPeriodoBloqueio.DIA_INTEIRO
+          });
+          r.push({
+            data: new Date(pascoa.getTime() + 60 * 24 * 60 * 60 * 1000),
+            descricao: 'Corpus Christ',
+            periodo: DoctorZ.enum.agendaPeriodoBloqueio.DIA_INTEIRO
+          });
+        }
+        if (this.agendaConfig.bloqueiosAutomaticos.indexOf(DoctorZ.enum.agendaBloqueio.FINADOS) != -1)
+          r.push({
+            data: new Date(ano, 10, 2),
+            descricao: 'Finados',
+            periodo: DoctorZ.enum.agendaPeriodoBloqueio.DIA_INTEIRO
+          });
+
+        if (this.agendaConfig.bloqueiosAutomaticos.indexOf(DoctorZ.enum.agendaBloqueio.CARNAVAL_SEGUNDA) != -1)
+          r.push({
+            data: new Date(pascoa.getTime() - 48 * 24 * 60 * 60 * 1000),
+            descricao: DoctorZ.enum.agendaBloqueio.CARNAVAL_SEGUNDA_text,
+            periodo: DoctorZ.enum.agendaPeriodoBloqueio.DIA_INTEIRO
+          });
+        if (this.agendaConfig.bloqueiosAutomaticos.indexOf(DoctorZ.enum.agendaBloqueio.CARNAVAL_TERCA) != -1)
+          r.push({
+            data: new Date(pascoa.getTime() - 47 * 24 * 60 * 60 * 1000),
+            descricao: DoctorZ.enum.agendaBloqueio.CARNAVAL_TERCA_text,
+            periodo: DoctorZ.enum.agendaPeriodoBloqueio.DIA_INTEIRO
+          });
+        if (this.agendaConfig.bloqueiosAutomaticos.indexOf(DoctorZ.enum.agendaBloqueio.QUARTA_CINZAS_DIA) != -1)
+          r.push({
+            data: new Date(pascoa.getTime() - 46 * 24 * 60 * 60 * 1000),
+            descricao: DoctorZ.enum.agendaBloqueio.QUARTA_CINZAS_DIA_text,
+            periodo: DoctorZ.enum.agendaPeriodoBloqueio.DIA_INTEIRO
+          });
+        else if (this.agendaConfig.bloqueiosAutomaticos.indexOf(DoctorZ.enum.agendaBloqueio.QUARTA_CINZAS_MANHA) != -1)
+          r.push({
+            data: new Date(pascoa.getTime() - 46 * 24 * 60 * 60 * 1000),
+            descricao: DoctorZ.enum.agendaBloqueio.QUARTA_CINZAS_MANHA_text,
+            periodo: DoctorZ.enum.agendaPeriodoBloqueio.MATUTINO
+          });
+      }
+      r = r.filter(function (f) {
+        return f.data.getTime() >= dataInicial.getTime() && f.data.getTime() <= dataFinal.getTime();
+      });
+      return r;
+    }
+queries:
+  selecionada:
+    caption: Clínica Selecionada
+    code:
+    {
+      return DoctorZ.db.clinica.find({
+        _id: DoctorZ.state.idClinicaSelecionada
+      });
+    }
+  queUsuarioTemPermissao:
+    caption: Clínicas que usuário tem permissão
+    params:
+      user: new.user
+    code:
+    {
+      var idClinicas;
+      if (user && user.profile && user.profile.dadosPorClinica) {
+        idClinicas = user.profile.dadosPorClinica
+          .map( (dc) => dc.clinicaId )
+          .filter(function (clinicaId) {
+            var usuario_desativado_na_clinica = Roles.userIsInRole(
+              user._id, 'desativar_login', clinicaId);
+            return !usuario_desativado_na_clinica;
+          });
+      }
+      else
+        idClinicas = ['nenhuma'];
+
+      return DoctorZ.db.clinica.find(
+        {
+          _id: {
+            $in: idClinicas
+          }
+        },
+        {
+          limit: 10
+        }
+      );
+    }
+  queUsuarioLogadoTemPermissao:
+    caption: Clínicas que usuário logado tem permissão
+    code:
+    {
+      var user = DoctorZ.query.usuarioLogado.call(this).fetch()[0];
+      if (user)
+        return DoctorZ.query.clinicasQueUsuarioTemPermissao(user);
+      else return DoctorZ.db.clinica.find({
+        _id: '?'
+      });
+    }
+  porId:
+    caption: Clínica por id
+    params:
+      clinicaId: new.clinicaId
+    code:
+    {
+      return DoctorZ.db.clinica.find({
+        _id: clinicaId
+      });
+    }
+  list:
+    caption: Lista clinicas
+    code:
+    {
+      return DoctorZ.db.clinica.find({});
+    }
+
+    
+
+
+    
+
+
+actions:
+  criarNovoIncidente:
+    caption:
+      pt_br: Novo incidente
+      en: New issue
+    params:
+      id: new.id
+      titulo: new.titulo
+      anotacoes: new.anotacoes
+    to: aberto
+  comecarResolver:
+    caption:
+      pt_br: Começar a resolver
+      en: Start resolve
+    from:
+    - aberto
+    - reaberto
+    to: resolvendo
+  marcarComoResolvido:
+    caption:
+      pt_br: Marcar como resolvido
+      en: mark resolved
+    from: resolvendo
+    to: resolvido
+    params:
+      anotacoes:
+        type: /h5/transforma/yaml/bz/type_string
+    code:
+      "new.anotacoes.value = new.anotacoes.value + '\n' + anotacoes;"
+  marcarComoInvalido:
+    caption:
+      pt_br: Marcar como inválido
+      en: Mark invalid
+    params:
+      anotacoes:
+        type: /h5/transforma/yaml/bz/type_string
+    from:
+    - aberto
+    - reaberto
+    to: invalido
+    code:
+      "new.anotacoes.value = new.anotacoes.value + '\n' + anotacoes;"
+  marcarComoDuplicado:
+    caption:
+      pt_br: Marcar como duplicado
+      en: Mark duplicated
+    params:
+      outroIncidente:
+        type: /h5/transforma/yaml/bz/incidente1
+      anotacoes:
+        type: /h5/transforma/yaml/bz/type_string
+    from:
+    - aberto
+    - reaberto
+    to: duplicado
+    code:
+      x*0,5 
+      "new.anotacoes.value = new.anotacoes.value + 'outro incidente: '+outroIncidente.id.value+' '+  anotacoes;"
+  reabrir:
+    caption:
+      pt_br: Reabrir
+      en: Reopen
+    from:
+    - resolvido
+    - invalido
+    - duplicado
+    to: reaberto
+    params:
+     anotacoes:
+       type: /h5/transforma/yaml/bz/type_string
+    code:
+      "new.anotacoes.value = new.anotacoes.value + '\n' + anotacoes;"
+keys:
+- porCodigo:
+    caption:
+      pt_br: Por código
+      en: By issue id
+    fields:
+    - id
+    generation: false
+    mutable: false
+    regexp: /d+/g
+queries:
+  porTitulo:
+    caption:
+      pt_br: Por título
+      en: By issue title
+    regexp: /w+/g
+    where: titulo == value
+#  porBranch:
+#    caption:
+#      pt_br: Por branch
+#      en: By branch
+#    regexp: /(w{2,8})#(\d{1,10})/g
+#    where: produto == $1 and id == $2
+
+initial documec: 
+ -  id: 1
+    titulo: 
+
+scenary: 
+  - tarimba
+  
+initial documec: 
+ -  id: 1
+    titulo: 
+
+
+
+
+    states:
+      aberto:
+        value: 10
+        kind: new
+      reaberto:
+        value: 20
+        kind: draft
+      resolvendo:
+        value: 30
+        kind: archive
+      resolvido:
+        value: 40
+        kind: archive
+      duplicado:
+        value: 50
+        kind: archive
+      invalido:
+        value: 60
+        kind: archive
