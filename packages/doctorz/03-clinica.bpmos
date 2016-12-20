@@ -4,49 +4,42 @@ bizdoc:
   description: Clínica
   connection: majinboo
   language: pt-br
-schema: //state
+  extends: Person
+schema: 
   id:
     type: Number
     min: 1
     max: 10 000 000
     caption: Id
-  logomarca:
-    type: String
-    optional: true
-    min: 10
-    max: 10 000 000
-    caption: Logomarca
-  nome:
-    type: String
-    max: 200
-    caption: Nome
+  // logomarca: "Person"
+  //   type: Image
+  //   optional: true
+  //   caption: Logomarca
+  // nome: "Person"
+  //   type: String
+  //   max: 200
+  //   caption: Nome
   contato:
-    type: String
+    type: Person
     caption: Contato
-    regexp: /^\([1-9]{2}\) [2-9][0-9]{3,4}\-[0-9]{4}$/g
-  email:
-    type: String
-    caption: E-mail
-    regexp: /^[a-zA-Z0-9][a-zA-Z0-9\._-]+@([a-zA-Z0-9\._-]+\.)[a-zA-Z-0-9]{2,3}/gm
-  celular:
-    type: String
-    caption: Celular
-    regexp: /^\([1-9]{2}\) [2-9][0-9]{3,4}\-[0-9]{4}$/g
-  telcom:
-    type: String
-    caption: Telefone Comercial
-    regexp: /^\([1-9]{2}\) [2-9][0-9]{3,4}\-[0-9]{4}$/g
+  // email:
+  //   type: Email
+  //   caption: E-mail
+  // celular:
+  //   type: drz.telefone
+  //   caption: Celular
+  // telcom:
+  //   type: drz.telefone
+  //   caption: Telefone Comercial
   defPacienteOutrosCampos:
-    type: Object
-    blackbox: true
+    type: drz.dinform
     optional: true
   configReports:
-    type: Object
+    type: complex
     defRascunhoHeader:
-      type: Object
-      blackbox: true
+      type: drz.dinreport
   layoutImpressao:
-    type: [Object]
+    type: [complex]
     optional: true
     nome:
       type: String
@@ -60,57 +53,56 @@ schema: //state
     pageMargins:
       type: [Number]
     fields:
-      type: [Object]
+      type: drz.dinform
       optional: true
-      blackbox: true
   dataExpiracao:
     type: Date
     caption: Data de Expiração
     optional: true
-  endereco:
-    type: Object
-    optional: true
-    rua:
-      type: String
-      caption: Rua
-      min: 3
-      max: 200
-      optional: true
-    bairro:
-      type: String
-      caption: Bairro
-      min: 3
-      max: 100
-      optional: true
-    cidade:
-      type: String
-      caption: Cidade
-      min: 3
-      max: 100
-      optional: true
-    uf:
-      type: String
-      caption: UF
-      min: 2
-      max: 2
-      optional: true
-    cep:
-      type: String
-      caption: CEP
-      regexp: /^[0-9]{5}\-[0-9]{3}$/g
-      optional: true
-    complemento:
-      type: String
-      caption: Complemento
-      optional: true
-    numero:
-      type: String
-      caption: Número
-      min: 1
-      max: 10
-      optional: true
+  // endereco:
+  //   type: Object
+  //   optional: true
+  //   rua:
+  //     type: String
+  //     caption: Rua
+  //     min: 3
+  //     max: 200
+  //     optional: true
+  //   bairro:
+  //     type: String
+  //     caption: Bairro
+  //     min: 3
+  //     max: 100
+  //     optional: true
+  //   cidade:
+  //     type: String
+  //     caption: Cidade
+  //     min: 3
+  //     max: 100
+  //     optional: true
+  //   uf:
+  //     type: String
+  //     caption: UF
+  //     min: 2
+  //     max: 2
+  //     optional: true
+  //   cep:
+  //     type: String
+  //     caption: CEP
+  //     regexp: /^[0-9]{5}\-[0-9]{3}$/g
+  //     optional: true
+  //   complemento:
+  //     type: String
+  //     caption: Complemento
+  //     optional: true
+  //   numero:
+  //     type: String
+  //     caption: Número
+  //     min: 1
+  //     max: 10
+  //     optional: true
   salas:
-    type: [Object]
+    type: [complex]
     caption: Salas
     optional: true
     nome:
@@ -122,7 +114,7 @@ schema: //state
   agendaConfig:
     type: Object
     bloqueiosAutomaticos:
-      type: [Number]
+      type: [drz.feriado]
       states:
         FERIADOS_NACIONAIS: 1
           caption: Feriados Nacionais
@@ -137,13 +129,13 @@ schema: //state
         FINADOS: 6
           caption: Dia de finados
     bloqueiosCustomizados:
-      type: [Object]
+      type: [complex]
       data:
         type: Date
       descricao:
         type: String
       periodo:
-        type: Number
+        type: drz.periodoDoDia
         states:
           DIA_INTEIRO: 1
             caption: Dia Inteiro
@@ -152,21 +144,20 @@ schema: //state
           VESPERTINO: 3
             caption: Vespertino
   atendimentoConfig:
-    type: Object
+    type: complex
     exigirDocumentoNoCadastroDePaciente:
       type: Boolean
-actions:
+helpers:
   statusLicenca:
     caption: Status da Licença
     code: 
     {
-      var self=this;
       return {
         ativa() {
-          return self.dataExpiracao >= h5moment(new Date()).startOf('day').toDate();
+          return this.dataExpiracao >= new Date().startOfDay();
         },
         trial() {
-          var licencaDeUsoCompra = DoctorZ.query.licencaDeUsoCompraPorClinica(DoctorZ.state.idClinicaSelecionada, self._id).fetch();
+          var licencaDeUsoCompra = drz.licencaDeUsoCompraPorClinica(drz.idClinicaSelecionada, this._id);
           return licencaDeUsoCompra.some(function (licenca) {
             if(licenca.codigoPromocional == 'TRIAL' && licenca.dataCompetencia.getTime() > new Date().getTime())
               return true;
@@ -332,75 +323,30 @@ queries:
   selecionada:
     caption: Clínica Selecionada
     code:
-    {
-      return DoctorZ.db.clinica.find({
-        _id: DoctorZ.state.idClinicaSelecionada
-      });
-    }
+      select * from clinica where _id = :clinicaId 
   queUsuarioTemPermissao:
     caption: Clínicas que usuário tem permissão
     params:
       user: new.user
     code:
-    {
-      var idClinicas;
-      if (user && user.profile && user.profile.dadosPorClinica) {
-        idClinicas = user.profile.dadosPorClinica
-          .map( (dc) => dc.clinicaId )
-          .filter(function (clinicaId) {
-            var usuario_desativado_na_clinica = Roles.userIsInRole(
-              user._id, 'desativar_login', clinicaId);
-            return !usuario_desativado_na_clinica;
-          });
-      }
-      else
-        idClinicas = ['nenhuma'];
-
-      return DoctorZ.db.clinica.find(
-        {
-          _id: {
-            $in: idClinicas
-          }
-        },
-        {
-          limit: 10
-        }
-      );
-    }
+      select * from clinica where _id like user.profile.dadosPorClinica
   queUsuarioLogadoTemPermissao:
     caption: Clínicas que usuário logado tem permissão
     code:
-    {
-      var user = DoctorZ.query.usuarioLogado.call(this).fetch()[0];
-      if (user)
-        return DoctorZ.query.clinicasQueUsuarioTemPermissao(user);
-      else return DoctorZ.db.clinica.find({
-        _id: '?'
-      });
-    }
+      select * from drz.clinicasQueUsuarioTemPermissao 
+      where usuarioId = drz.usuarioLogado
   porId:
     caption: Clínica por id
     params:
       clinicaId: new.clinicaId
     code:
-    {
-      return DoctorZ.db.clinica.find({
-        _id: clinicaId
-      });
-    }
+      select * from clinica where _id = :clinicaId
   list:
     caption: Lista clinicas
     code:
     {
       return DoctorZ.db.clinica.find({});
     }
-
-    
-
-
-    
-
-
 actions:
   criarNovoIncidente:
     caption:
